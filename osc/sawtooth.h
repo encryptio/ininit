@@ -5,7 +5,6 @@
 
 struct osc_sawtooth_st {
     double now;
-    double phase;
     double *frequency;
 };
 
