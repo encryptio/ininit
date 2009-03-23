@@ -11,7 +11,6 @@
 void saver_ticker(void * info) {
     struct saver_st *me = (struct saver_st *)info;
     int val = *(me->input) * 32768.0;
-    char b[2];
 
     // clip
     if ( val >  (1 << 15) - 1 ) val =  (1 << 15) - 1;
@@ -20,10 +19,13 @@ void saver_ticker(void * info) {
     // signed mark
     if ( val < 0 ) val += 1 << 16;
 
-    b[0] = (val >> 8) & 0xFF;
-    b[1] =  val       & 0xFF;
+    if ( me->buffer_used + 2 > SAVER_BUFFER_SIZE ) {
+        fwrite(&(me->buffer), me->buffer_used, 1, me->fh);
+        me->buffer_used = 0;
+    }
 
-    fwrite(b, 1, 2, me->fh);
+    me->buffer[me->buffer_used++] = (val >> 8) & 0xFF;
+    me->buffer[me->buffer_used++] =  val       & 0xFF;
 }
 
 struct saver_st * saver_make(double *input, char *path) {
@@ -51,6 +53,9 @@ struct saver_st * saver_make(double *input, char *path) {
     header[19] =  sample_rate        & 0xFF;
 
     fwrite(header, 4 + 5*4, 1, ret->fh);
+
+    // variables
+    ret->buffer_used = 0;
 
     // and the inputs
     ret->input = input;
