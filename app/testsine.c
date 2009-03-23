@@ -9,7 +9,6 @@
 
 double freq = 0;
 double *freqwave;
-struct osc_sine_st * osc_sine_make(double phase, double *frequency);
 
 void fn_ticker(void * info) {
     freq = *freqwave * 100 + 440;
