@@ -34,6 +34,8 @@ sub make_bindings {
                     print "    double $ar->[1];\n";
                 } elsif ( $ar->[0] eq 'signal' ) {
                     print "    double *$ar->[1];\n";
+                } elsif ( $ar->[0] eq 'string' ) {
+                    print "    char *$ar->[1];\n";
                 } else { die }
             }
 
@@ -51,6 +53,8 @@ sub make_bindings {
                     print "\n";
                     print "        *$ar->[1] = (double) luaL_checknumber(lst, $argno);\n";
                     print "    }\n\n";
+                } elsif ( $ar->[0] eq 'string' ) {
+                    print "    $ar->[1] = luaL_checkstring(lst, $argno);\n\n";
                 } else { die }
             }
 
@@ -80,8 +84,10 @@ sub parse_cdef {
 
         if ( $ar =~ /^double\s*([a-z_]+)$/ ) {
             push @argdefs, ['numvar', $1];
-        } elsif ( $ar =~ /^double\s*\*([a-z_]+)$/ ) {
+        } elsif ( $ar =~ /^double\s*\*\s*([a-z_]+)$/ ) {
             push @argdefs, ['signal', $1];
+        } elsif ( $ar =~ /^char\s*\*\s*([a-z_]+)$/ ) {
+            push @argdefs, ['string', $1];
         } else {
             die "Don't know how to deal with cdef argument '$ar'";
         }
