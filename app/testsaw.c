@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     void *saw, *saver, *filtered;
     saw = (void *) osc_sawtooth_make(0, &freq);
     filtered = (void *) filter_bandpass_make((float *)saw, &filterfreq, &filterres);
-    saver = (void *) saver_make((float *)filtered, "audio/testsaw.au");
+    saver = (void *) saver_make_single((float *)filtered, "audio/testsaw.au");
     ii_run(sample_rate * 3);
     exit(0);
 }

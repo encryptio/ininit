@@ -9,11 +9,13 @@
 
 struct saver_st {
     FILE * fh;
-    float *input;
+    float **inputs;
+    int num_inputs;
     char buffer[SAVER_BUFFER_SIZE];
     int buffer_used;
 };
 
-struct saver_st * saver_make(float *input, char *path);
+struct saver_st * saver_make(float **inputs, int num_inputs, char *path);
+struct saver_st * saver_make_single(float *input, char *path);
 
 #endif

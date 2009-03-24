@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
     mainwave = (void *) osc_sine_make(0, &freq);
 
-    saver = (void *) saver_make((float *)mainwave, "audio/testsine.au");
+    saver = (void *) saver_make_single((float *)mainwave, "audio/testsine.au");
 
     ii_run(sample_rate * 10);
 

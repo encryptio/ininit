@@ -14,15 +14,24 @@
 
 // !lua:saver -> bind_saver
 static int bind_saver(lua_State *lst) {
-    float *input;
+    int argc = lua_gettop(lst);
+    float **inputs;
     char *path;
+    int num_inputs, i;
 
-    if ( (input = lua_touserdata(lst, 1)) == NULL )
-        die("bind_saver: first argument is not a signal");
+    num_inputs = argc-1;
 
-    path = (char *)luaL_checkstring(lst, 2);
+    if ( (inputs = malloc(sizeof(float *) * num_inputs)) == NULL )
+        die("bind_saver: couldn't malloc inputs");
 
-    saver_make(input, path);
+    for (i=1; i<=num_inputs; i++) {
+        if ( (inputs[i-1] = lua_touserdata(lst, i)) == NULL )
+            die("bind_saver: nonlast argument is not a signal");
+    }
+
+    path = (char *)luaL_checkstring(lst, -1);
+
+    saver_make(inputs, num_inputs, path);
     return 0;
 }
 
