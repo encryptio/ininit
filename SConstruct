@@ -13,7 +13,7 @@ env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder} )
 
 
 sharedcode = []
-for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr'):
+for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower'):
     sharedcode += env.Object(i + '.c')
 
 
