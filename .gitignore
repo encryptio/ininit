@@ -1,2 +1,7 @@
 /.sconsign.dblite
 /audio
+/luabind/bind.c
+/app/testsaw
+/app/testsine
+/ininit
+*.o
