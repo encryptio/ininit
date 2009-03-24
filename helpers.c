@@ -32,11 +32,12 @@ void ii_sampler_call(pullfn sampler, void *info) {
     numfns++;
 }
 
-void ii_control_call(pullfn control, void *info, const int frequency) {
+void ii_control_call(pullfn control, void *info, int frequency) {
     if ( numctrl == MAX_FUNCTIONS )
         die("ii_control_call: too many functions");
 
     ctrl[numctrl].fn = control;
+    ctrl[numctrl].info = info;
     ctrl[numctrl].freq = frequency;
     numctrl++;
 }
@@ -58,7 +59,7 @@ void ii_run(int samples) {
             (funs[j].fn)(funs[j].info);
 
         for (j=0; j<numctrl; j++) {
-            if ( ctrl[j].freq % current_sample == 0 )
+            if ( current_sample % ctrl[j].freq == 0 )
                 (ctrl[j].fn)(ctrl[j].info);
         }
 
