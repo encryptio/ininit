@@ -3,6 +3,8 @@
 #ifndef _SAVER_H_
 #define _SAVER_H_
 
+#include <stdio.h>
+
 #define SAVER_BUFFER_SIZE 1024
 
 struct saver_st {
