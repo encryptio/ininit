@@ -5,12 +5,11 @@
 
 struct control_envelopefollower_st {
     float now;
-    float mult;
     float *input;
 };
 
-// !lua:control_envelopefollower -> control_envelopefollower_make(float *input, float drop)
-struct control_envelopefollower_st * control_envelopefollower_make(float *input, float drop);
+// !lua:control_envelopefollower -> control_envelopefollower_make(float *input)
+struct control_envelopefollower_st * control_envelopefollower_make(float *input);
 
 #endif
 

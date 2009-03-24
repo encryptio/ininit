@@ -7,23 +7,26 @@
 #include "helpers.h"
 #include "die.h"
 
+#define ENVELOPE_DROP 0.008
+#define LOWPASS_ALPHA 0.07
+
 void control_envelopefollower_ticker(void * info) {
     struct control_envelopefollower_st *me = (struct control_envelopefollower_st *)info;
+    float new = me->now * (1.0-ENVELOPE_DROP);
 
-    me->now *= me->mult;
-    
-    if ( fabs(*me->input) > me->now )
-        me->now = fabs(*me->input);
+    if ( fabs(*me->input) > new )
+        new = fabs(*me->input);
+
+    me->now = me->now + LOWPASS_ALPHA * (new - me->now);
 }
 
-struct control_envelopefollower_st * control_envelopefollower_make(float *input, float drop) {
+struct control_envelopefollower_st * control_envelopefollower_make(float *input) {
     struct control_envelopefollower_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
         die("control_envelopefollower_st: couldn't malloc ret");
 
     ret->now = 0;
-    ret->mult = 1-drop;
     ret->input = input;
 
     ii_sampler_call(control_envelopefollower_ticker, (void *)ret);
