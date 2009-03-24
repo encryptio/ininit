@@ -27,7 +27,7 @@ for file in Split(os.popen("find . -name \\*.h | sed 's/^\\.\\///'").read()):
 luabindsobj = env.Object('luabind/bind.c')
 Depends(luabindsobj, luabindscode)
 
-env.Program(target='luabind/luabind', source=['luabind/main.c', luabindsobj] + sharedcode, LIBS=['lua'])
+env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode, LIBS=['lua'])
 
 
 
