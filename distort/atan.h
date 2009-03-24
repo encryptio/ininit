@@ -10,6 +10,7 @@ struct distort_atan_st {
     double *input;
 };
 
+// !lua:distort_atan -> distort_atan_make(double *input, double *amplitude)
 struct distort_atan_st * distort_atan_make(double *input, double *amplitude);
 
 #endif

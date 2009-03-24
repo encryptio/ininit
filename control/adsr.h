@@ -21,6 +21,7 @@ struct control_adsr_st {
     double *trigger;
 };
 
+// !lua:control_adsr -> control_adsr_make(double *trigger, double *attack, double *decay, double *sustain, double *release)
 struct control_adsr_st * control_adsr_make(double *trigger, double *attack, double *decay, double *sustain, double *release);
 
 #endif

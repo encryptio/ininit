@@ -1,5 +1,6 @@
-freq = makefn(1, function(x) return x*100+440 end, sawtooth(0, 1));
-osc = sawtooth(0, freq)
+freq = makefn(1, function(x) return x*100+440 end, osc_sine(0, 1));
+osc = osc_sawtooth(0, freq)
+
 saver(osc, "audio/sawtest-lua.au")
-runsamples(getsamplerate()*3);
+run(3)
 

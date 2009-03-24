@@ -9,6 +9,7 @@ struct osc_sine_st {
     double *frequency;
 };
 
+// !lua:osc_sine -> osc_sine_make(double phase, double *frequency)
 struct osc_sine_st * osc_sine_make(double phase, double *frequency);
 
 #endif

@@ -8,6 +8,7 @@ struct osc_sawtooth_st {
     double *frequency;
 };
 
+// !lua:osc_sawtooth -> osc_sawtooth_make(double phase, double *frequency)
 struct osc_sawtooth_st * osc_sawtooth_make(double phase, double *frequency);
 
 #endif

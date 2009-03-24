@@ -17,6 +17,7 @@ struct filter_bandpass_st {
     double *res;
 };
 
+// !lua:filter_bandpass -> filter_bandpass_make(double *input, double *frequency, double *resonance)
 struct filter_bandpass_st * filter_bandpass_make(double *input, double *frequency, double *resonance);
 
 #endif

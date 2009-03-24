@@ -13,28 +13,7 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
-static int bind_osc_sawtooth(lua_State *lst) {
-    double phase;
-    double *frequency;
-    void *ret;
-
-    phase = (double) luaL_checknumber(lst, 1);
-
-    if ( (frequency = (double *) lua_touserdata(lst, 2)) == NULL ) {
-        if ( (frequency = malloc(sizeof(double))) == NULL )
-            die("bind_osc_sawtooth: couldn't malloc frequency");
-
-        *frequency = (double) luaL_checknumber(lst, 2);
-    }
-
-    ret = (void *) osc_sawtooth_make(phase, frequency);
-
-    lua_pushlightuserdata(lst, ret);
-    return 1;
-}
-
-
-// :saver -> bind_saver
+// !lua:saver -> bind_saver
 static int bind_saver(lua_State *lst) {
     double *input;
     char *path;
@@ -48,19 +27,19 @@ static int bind_saver(lua_State *lst) {
     return 0;
 }
 
-// :getsamplerate -> bind_getsamplerate
+// !lua:getsamplerate -> bind_getsamplerate
 static int bind_getsamplerate(lua_State *lst) {
     lua_pushnumber(lst, sample_rate);
     return 1;
 }
 
-// :runsamples -> bind_runsamples
+// !lua:runsamples -> bind_runsamples
 static int bind_runsamples(lua_State *lst) {
     ii_run( luaL_checkint(lst, 1) );
     return 0;
 }
 
-// :run -> bind_run
+// !lua:run -> bind_run
 static int bind_run(lua_State *lst) {
     ii_run( (int)( (double)luaL_checknumber(lst, 1) * sample_rate ) );
     return 0;
@@ -92,7 +71,7 @@ void bind_makefn_ticker(void * info) {
     me->now = (double) luaL_checknumber(me->lst, -1);
 }
 
-// :makefn -> bind_makefn
+// !lua:makefn -> bind_makefn
 static int bind_makefn(lua_State *lst) {
     int i;
     int argc = lua_gettop(lst);
@@ -131,14 +110,5 @@ static int bind_makefn(lua_State *lst) {
 
     lua_pushlightuserdata(lst, me);
     return 1;
-}
-
-void bind_ininit_lua_fns(lua_State *lst) {
-    lua_register(lst, "sawtooth", bind_osc_sawtooth);
-    lua_register(lst, "saver", bind_saver);
-    lua_register(lst, "getsamplerate", bind_getsamplerate);
-    lua_register(lst, "runsamples", bind_runsamples);
-    lua_register(lst, "run", bind_run);
-    lua_register(lst, "makefn", bind_makefn);
 }
 
