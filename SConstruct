@@ -4,12 +4,11 @@ import os
 
 bindingbuilder = Builder(action = "perl luabind/makebinds.pl -builtins $SOURCE -header `find . -name \\*.h | sed 's/^\\.\\///'` > $TARGET")
 
-env = Environment(
-    CCFLAGS=['-Wall', '-Wno-unused-variable', '-O2', '-ffast-math'],
-    CPPPATH=['.', '/sw/include'],
-    LIBPATH=['/sw/lib'],
-    BUILDERS={'LuaMakeBindings' : bindingbuilder},
-  )
+env = Environment()
+env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O2', '-ffast-math'] )
+env.Append( CPPPATH=['.', '/sw/include'] )
+env.Append( LIBPATH=['/sw/lib'] )
+env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder} )
 
 
 
