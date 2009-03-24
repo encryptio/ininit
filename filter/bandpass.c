@@ -13,7 +13,7 @@ void filter_bandpass_ticker(void * info) {
     struct filter_bandpass_st *me = (struct filter_bandpass_st *)info;
     
     if ( *(me->freq) != me->lastfreq ) {
-        me->fx = cos(2*PI * *(me->freq) / (double)sample_rate);
+        me->fx = cos(2*PI * *(me->freq) / (float)sample_rate);
         me->a0 = (1- *(me->res)) * sqrt( *(me->res) * (*(me->res) - 4*me->fx*me->fx + 2) + 1 );
     } else if ( *(me->res) != me->lastres ) {
         me->a0 = (1- *(me->res)) * sqrt( *(me->res) * (*(me->res) - 4*me->fx*me->fx + 2) + 1 );
@@ -27,7 +27,7 @@ void filter_bandpass_ticker(void * info) {
     me->last1 = me->next;
 }
 
-struct filter_bandpass_st * filter_bandpass_make(double *input, double *frequency, double *resonance) {
+struct filter_bandpass_st * filter_bandpass_make(float *input, float *frequency, float *resonance) {
     struct filter_bandpass_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )

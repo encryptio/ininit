@@ -4,14 +4,14 @@
 #define _DISTORT_ATAN_H_
 
 struct distort_atan_st {
-    double now;
-    double next;
-    double *amp;
-    double *input;
+    float now;
+    float next;
+    float *amp;
+    float *input;
 };
 
-// !lua:distort_atan -> distort_atan_make(double *input, double *amplitude)
-struct distort_atan_st * distort_atan_make(double *input, double *amplitude);
+// !lua:distort_atan -> distort_atan_make(float *input, float *amplitude)
+struct distort_atan_st * distort_atan_make(float *input, float *amplitude);
 
 #endif
 

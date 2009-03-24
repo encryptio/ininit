@@ -16,7 +16,7 @@ void control_envelopefollower_ticker(void * info) {
         me->now = fabs(*me->input);
 }
 
-struct control_envelopefollower_st * control_envelopefollower_make(double *input, double drop) {
+struct control_envelopefollower_st * control_envelopefollower_make(float *input, float drop) {
     struct control_envelopefollower_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )

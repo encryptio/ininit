@@ -4,12 +4,12 @@
 #define _OSC_SAWTOOTH_H_
 
 struct osc_sawtooth_st {
-    double now;
-    double *frequency;
+    float now;
+    float *frequency;
 };
 
-// !lua:osc_sawtooth -> osc_sawtooth_make(double phase, double *frequency)
-struct osc_sawtooth_st * osc_sawtooth_make(double phase, double *frequency);
+// !lua:osc_sawtooth -> osc_sawtooth_make(float phase, float *frequency)
+struct osc_sawtooth_st * osc_sawtooth_make(float phase, float *frequency);
 
 #endif
 

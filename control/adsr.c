@@ -55,7 +55,7 @@ void control_adsr_ticker(void * info) {
     }
 }
 
-struct control_adsr_st * control_adsr_make(double *trigger, double *attack, double *decay, double *sustain, double *release) {
+struct control_adsr_st * control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release) {
     struct control_adsr_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )

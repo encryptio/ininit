@@ -4,13 +4,13 @@
 #define _CONTROL_ENVELOPEFOLLOWER_H_
 
 struct control_envelopefollower_st {
-    double now;
-    double mult;
-    double *input;
+    float now;
+    float mult;
+    float *input;
 };
 
-// !lua:control_envelopefollower -> control_envelopefollower_make(double *input, double drop)
-struct control_envelopefollower_st * control_envelopefollower_make(double *input, double drop);
+// !lua:control_envelopefollower -> control_envelopefollower_make(float *input, float drop)
+struct control_envelopefollower_st * control_envelopefollower_make(float *input, float drop);
 
 #endif
 

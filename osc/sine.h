@@ -4,13 +4,13 @@
 #define _OSC_SINE_H_
 
 struct osc_sine_st {
-    double now;
-    double phase;
-    double *frequency;
+    float now;
+    float phase;
+    float *frequency;
 };
 
-// !lua:osc_sine -> osc_sine_make(double phase, double *frequency)
-struct osc_sine_st * osc_sine_make(double phase, double *frequency);
+// !lua:osc_sine -> osc_sine_make(float phase, float *frequency)
+struct osc_sine_st * osc_sine_make(float phase, float *frequency);
 
 #endif
 

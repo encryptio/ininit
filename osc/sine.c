@@ -18,7 +18,7 @@ void osc_sine_ticker(void * info) {
     me->now = cos(me->phase);
 }
 
-struct osc_sine_st * osc_sine_make(double phase, double *frequency) {
+struct osc_sine_st * osc_sine_make(float phase, float *frequency) {
     struct osc_sine_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )

@@ -31,9 +31,9 @@ sub make_bindings {
 
             for my $ar ( @args ) {
                 if ( $ar->[0] eq 'numvar' ) {
-                    print "    double $ar->[1];\n";
+                    print "    float $ar->[1];\n";
                 } elsif ( $ar->[0] eq 'signal' ) {
-                    print "    double *$ar->[1];\n";
+                    print "    float *$ar->[1];\n";
                 } elsif ( $ar->[0] eq 'string' ) {
                     print "    char *$ar->[1];\n";
                 } else { die }
@@ -45,13 +45,13 @@ sub make_bindings {
                 my $argno = $i+1;
                 my $ar = $args[$i];
                 if ( $ar->[0] eq 'numvar' ) {
-                    print "    $ar->[1] = (double) luaL_checknumber(lst, $argno);\n\n";
+                    print "    $ar->[1] = (float) luaL_checknumber(lst, $argno);\n\n";
                 } elsif ( $ar->[0] eq 'signal' ) {
-                    print "    if ( ($ar->[1] = (double *) lua_touserdata(lst, $argno)) == NULL ) {\n";
-                    print "        if ( ($ar->[1] = malloc(sizeof(double))) == NULL )\n";
+                    print "    if ( ($ar->[1] = (float *) lua_touserdata(lst, $argno)) == NULL ) {\n";
+                    print "        if ( ($ar->[1] = malloc(sizeof(float))) == NULL )\n";
                     print "            die(\"bind_$luafnname: couldn't malloc $ar->[1]\");\n";
                     print "\n";
-                    print "        *$ar->[1] = (double) luaL_checknumber(lst, $argno);\n";
+                    print "        *$ar->[1] = (float) luaL_checknumber(lst, $argno);\n";
                     print "    }\n\n";
                 } elsif ( $ar->[0] eq 'string' ) {
                     print "    $ar->[1] = luaL_checkstring(lst, $argno);\n\n";
@@ -82,9 +82,9 @@ sub parse_cdef {
         $ar =~ s/^\s+//;
         $ar =~ s/\s+$//;
 
-        if ( $ar =~ /^double\s*([a-z_]+)$/ ) {
+        if ( $ar =~ /^float\s*([a-z_]+)$/ ) {
             push @argdefs, ['numvar', $1];
-        } elsif ( $ar =~ /^double\s*\*\s*([a-z_]+)$/ ) {
+        } elsif ( $ar =~ /^float\s*\*\s*([a-z_]+)$/ ) {
             push @argdefs, ['signal', $1];
         } elsif ( $ar =~ /^char\s*\*\s*([a-z_]+)$/ ) {
             push @argdefs, ['string', $1];

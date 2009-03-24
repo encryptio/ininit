@@ -13,7 +13,7 @@ int numfns = 0;
 struct { pullfn fn; void *info; int freq; } ctrl[MAX_FUNCTIONS];
 int numctrl = 0;
 
-struct { double *src, *dst; } move[MAX_FUNCTIONS];
+struct { float *src, *dst; } move[MAX_FUNCTIONS];
 int nummove = 0;
 
 void ii_init(void) {
@@ -42,7 +42,7 @@ void ii_control_call(pullfn control, void *info, int frequency) {
     numctrl++;
 }
 
-void ii_sampler_move(double *src, double *dst) {
+void ii_sampler_move(float *src, float *dst) {
     if ( nummove == MAX_FUNCTIONS )
         die("ii_sampler_move: too many moves");
 

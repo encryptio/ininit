@@ -6,7 +6,6 @@
 
 #include "saver.h"
 #include "die.h"
-#include "osc/sawtooth.h"
 #include "helpers.h"
 
 #include "lua.h"
@@ -15,7 +14,7 @@
 
 // !lua:saver -> bind_saver
 static int bind_saver(lua_State *lst) {
-    double *input;
+    float *input;
     char *path;
 
     if ( (input = lua_touserdata(lst, 1)) == NULL )
@@ -41,15 +40,15 @@ static int bind_runsamples(lua_State *lst) {
 
 // !lua:run -> bind_run
 static int bind_run(lua_State *lst) {
-    ii_run( (int)( (double)luaL_checknumber(lst, 1) * sample_rate ) );
+    ii_run( (int)( (float)luaL_checknumber(lst, 1) * sample_rate ) );
     return 0;
 }
 
 struct lua_boundfn_st {
-    double now;
+    float now;
     int refnum;
     lua_State *lst;
-    double **inputs;
+    float **inputs;
     int inputcount;
 };
 
@@ -68,7 +67,7 @@ void bind_makefn_ticker(void * info) {
     lua_call(me->lst, me->inputcount, 1);
 
     // and grab the result
-    me->now = (double) luaL_checknumber(me->lst, -1);
+    me->now = (float) luaL_checknumber(me->lst, -1);
 }
 
 // !lua:makefn -> bind_makefn
@@ -94,7 +93,7 @@ static int bind_makefn(lua_State *lst) {
     me->now = 0;
     me->lst = lst;
     me->inputcount = argc - 2;
-    if ( (me->inputs = malloc(sizeof(double*) * me->inputcount)) == NULL )
+    if ( (me->inputs = malloc(sizeof(float*) * me->inputcount)) == NULL )
         die("bind_makefn: couldn't malloc me->inputs");
 
     for (i=0; i<me->inputcount; i++) {

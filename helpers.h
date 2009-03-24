@@ -11,7 +11,7 @@ typedef void (*pullfn)(void *info);
 void ii_init(void);
 void ii_sampler_call(pullfn sampler, void *info);
 void ii_control_call(pullfn control, void *info, int frequency);
-void ii_sampler_move(double *src, double *dst);
+void ii_sampler_move(float *src, float *dst);
 void ii_run(int samples);
 
 #endif

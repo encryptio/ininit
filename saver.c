@@ -28,7 +28,7 @@ void saver_ticker(void * info) {
     me->buffer[me->buffer_used++] =  val       & 0xFF;
 }
 
-struct saver_st * saver_make(double *input, char *path) {
+struct saver_st * saver_make(float *input, char *path) {
     struct saver_st *ret;
     char header[4 + 5*4] = {
         '.', 's', 'n', 'd', // magic number

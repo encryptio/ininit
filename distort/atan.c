@@ -15,7 +15,7 @@ void distort_atan_ticker(void * info) {
     me->next = atan( *(me->input) * *(me->amp) )/(PI/2);
 }
 
-struct distort_atan_st * distort_atan_make(double *input, double *amplitude) {
+struct distort_atan_st * distort_atan_make(float *input, float *amplitude) {
     struct distort_atan_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )

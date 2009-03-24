@@ -9,11 +9,11 @@
 
 struct saver_st {
     FILE * fh;
-    double *input;
+    float *input;
     char buffer[SAVER_BUFFER_SIZE];
     int buffer_used;
 };
 
-struct saver_st * saver_make(double *input, char *path);
+struct saver_st * saver_make(float *input, char *path);
 
 #endif

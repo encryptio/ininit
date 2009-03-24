@@ -12,17 +12,17 @@ enum control_adsr_state {
 };
 
 struct control_adsr_st {
-    double now;
+    float now;
     enum control_adsr_state state;
-    double *attack;
-    double *decay;
-    double *sustain;
-    double *release;
-    double *trigger;
+    float *attack;
+    float *decay;
+    float *sustain;
+    float *release;
+    float *trigger;
 };
 
-// !lua:control_adsr -> control_adsr_make(double *trigger, double *attack, double *decay, double *sustain, double *release)
-struct control_adsr_st * control_adsr_make(double *trigger, double *attack, double *decay, double *sustain, double *release);
+// !lua:control_adsr -> control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release)
+struct control_adsr_st * control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release);
 
 #endif
 
