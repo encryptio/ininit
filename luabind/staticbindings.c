@@ -132,6 +132,7 @@ struct lua_signals_table_add_st {
     float now;
     float **inputs;
     int inputcount;
+    float multiply;
 };
 
 void bind_signals_table_add_ticker(void * info) {
@@ -143,11 +144,10 @@ void bind_signals_table_add_ticker(void * info) {
         new += *(me->inputs[i]);
     }
 
-    me->now = new;
+    me->now = new * me->multiply;
 }
 
-// !lua:signals_table_add -> bind_signals_table_add
-static int bind_signals_table_add(lua_State *lst) {
+static int bind_signals_table_sum(lua_State *lst, int fromaverage) {
     struct lua_signals_table_add_st * me;
     int tablecount, i;
 
@@ -173,9 +173,20 @@ static int bind_signals_table_add(lua_State *lst) {
     }
 
     me->now = 0;
+    me->multiply = fromaverage ? 1/me->inputcount : 1;
     ii_sampler_call(bind_signals_table_add_ticker, (void *)me);
 
     lua_pushlightuserdata(lst, me);
     return 1;
+}
+
+// !lua:signals_table_add -> bind_signals_table_add
+static int bind_signals_table_add(lua_State *lst) {
+    return bind_signals_table_sum(lst, 0);
+}
+
+// !lua:signals_table_average -> bind_signals_table_average
+static int bind_signals_table_average(lua_State *lst) {
+    return bind_signals_table_sum(lst, 1);
 }
 
