@@ -173,7 +173,7 @@ static int bind_signals_table_sum(lua_State *lst, int fromaverage) {
     }
 
     me->now = 0;
-    me->multiply = fromaverage ? 1/me->inputcount : 1;
+    me->multiply = fromaverage ? 1.0/me->inputcount : 1;
     ii_sampler_call(bind_signals_table_add_ticker, (void *)me);
 
     lua_pushlightuserdata(lst, me);
