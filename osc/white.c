@@ -9,7 +9,7 @@
 void osc_white_ticker(void * info) {
     struct osc_white_st * me = (struct osc_white_st *)info;
 
-    me->now = ((float)rand()) / RAND_MAX;
+    me->now = ((float)rand()) / RAND_MAX * 2 - 1;
 }
 
 struct osc_white_st * osc_white_make() {
