@@ -73,7 +73,7 @@ void ii_run(int samples) {
         for (j=0; j<nummove; j++)
             *(move[j].dst) = *(move[j].src);
 
-        *current_sample++;
+        (*current_sample)++;
     }
 }
 
