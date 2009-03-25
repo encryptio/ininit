@@ -36,6 +36,8 @@ sub make_bindings {
                     print "    float *$ar->[1];\n";
                 } elsif ( $ar->[0] eq 'string' ) {
                     print "    char *$ar->[1];\n";
+                } elsif ( $ar->[0] eq 'bool' ) {
+                    print "    int $ar->[1];\n";
                 } else { die }
             }
 
@@ -54,7 +56,9 @@ sub make_bindings {
                     print "        *$ar->[1] = (float) luaL_checknumber(lst, $argno);\n";
                     print "    }\n\n";
                 } elsif ( $ar->[0] eq 'string' ) {
-                    print "    $ar->[1] = luaL_checkstring(lst, $argno);\n\n";
+                    print "    $ar->[1] = (char *) luaL_checkstring(lst, $argno);\n\n";
+                } elsif ( $ar->[0] eq 'bool' ) {
+                    print "    $ar->[1] = lua_toboolean(lst, $argno) ? 1 : 0;\n\n";
                 } else { die }
             }
 
@@ -73,6 +77,10 @@ sub make_bindings {
 sub parse_cdef {
     my ($cdef) = @_;
 
+    if ( $cdef =~ /^\s*([a-z_]+)\(\s*\)\s*$/i ) {
+        return $1; # no arguments
+    }
+
     $cdef =~ /^\s*([a-z_]+)\s*\((.+)\)\s*$/i
         or die "Couldn't parse cdef '$cdef'";
     my ($fname, $args) = ($1, $2);
@@ -88,6 +96,8 @@ sub parse_cdef {
             push @argdefs, ['signal', $1];
         } elsif ( $ar =~ /^char\s*\*\s*([a-z_]+)$/ ) {
             push @argdefs, ['string', $1];
+        } elsif ( $ar =~ /^bool\s+([a-z_]+)$/ ) {
+            push @argdefs, ['bool', $1];
         } else {
             die "Don't know how to deal with cdef argument '$ar'";
         }
