@@ -37,17 +37,13 @@ static int bind_saver(lua_State *lst) {
 
 // !lua:getcurrentsample -> bind_getcurrentsample
 static int bind_getcurrentsample(lua_State *lst) {
-    printf("calling getcurrentsample\n");
     lua_pushinteger(lst, *current_sample);
-    printf("ending getcurrentsample\n");
     return 1;
 }
 
 // !lua:getsamplerate -> bind_getsamplerate
 static int bind_getsamplerate(lua_State *lst) {
-    printf("calling getsamplerate\n");
     lua_pushnumber(lst, *sample_rate);
-    printf("ending getsamplerate\n");
     return 1;
 }
 
