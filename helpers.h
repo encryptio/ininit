@@ -3,8 +3,8 @@
 #ifndef _HELPERS_H_
 #define _HELPERS_H_
 
-static long long current_sample = 0;
-static long long sample_rate = 44100;
+long long *current_sample;
+long long *sample_rate;
 
 typedef void (*pullfn)(void *info);
 

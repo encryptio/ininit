@@ -1,5 +1,7 @@
 // Copyright 2009 Jack Christopher Kastorff
 
+#include <stdlib.h>
+
 #include "helpers.h"
 #include "die.h"
 
@@ -17,7 +19,12 @@ struct { float *src, *dst; } move[MAX_FUNCTIONS];
 int nummove = 0;
 
 void ii_init(void) {
-    current_sample = 0;
+    if ( (current_sample = malloc(sizeof(*current_sample))) == NULL )
+        die("ii_init: couldn't malloc space for current_sample");
+    if ( (sample_rate = malloc(sizeof(*sample_rate))) == NULL )
+        die("ii_init: couldn't malloc space for sample_rate");
+    *sample_rate = 44100;
+    *current_sample = 0;
     numfns = 0; // dealloc?
     numctrl = 0;
     nummove = 0;
@@ -59,14 +66,14 @@ void ii_run(int samples) {
             (funs[j].fn)(funs[j].info);
 
         for (j=0; j<numctrl; j++) {
-            if ( current_sample % ctrl[j].freq == 0 )
+            if ( *current_sample % ctrl[j].freq == 0 )
                 (ctrl[j].fn)(ctrl[j].info);
         }
 
         for (j=0; j<nummove; j++)
             *(move[j].dst) = *(move[j].src);
 
-        current_sample++;
+        *current_sample++;
     }
 }
 

@@ -35,9 +35,19 @@ static int bind_saver(lua_State *lst) {
     return 0;
 }
 
+// !lua:getcurrentsample -> bind_getcurrentsample
+static int bind_getcurrentsample(lua_State *lst) {
+    printf("calling getcurrentsample\n");
+    lua_pushinteger(lst, *current_sample);
+    printf("ending getcurrentsample\n");
+    return 1;
+}
+
 // !lua:getsamplerate -> bind_getsamplerate
 static int bind_getsamplerate(lua_State *lst) {
-    lua_pushnumber(lst, sample_rate);
+    printf("calling getsamplerate\n");
+    lua_pushnumber(lst, *sample_rate);
+    printf("ending getsamplerate\n");
     return 1;
 }
 
@@ -49,7 +59,7 @@ static int bind_runsamples(lua_State *lst) {
 
 // !lua:run -> bind_run
 static int bind_run(lua_State *lst) {
-    ii_run( (int)( (float)luaL_checknumber(lst, 1) * sample_rate ) );
+    ii_run( (int)( (float)luaL_checknumber(lst, 1) * *sample_rate ) );
     return 0;
 }
 
@@ -160,13 +170,14 @@ static int bind_signals_table_add(lua_State *lst) {
     i = 0;
     lua_pushnil(lst);
     while ( lua_next(lst, 1) ) {
-        if ( (me->inputs[i] = lua_touserdata(lst, -1)) == NULL )
+        if ( (me->inputs[i++] = lua_touserdata(lst, -1)) == NULL )
             die("bind_signals_table_add: not all values in the table are signals");
 
         lua_pop(lst, 1); // take out the value, leaving the last key
     }
 
     me->now = 0;
+    ii_sampler_call(bind_signals_table_add_ticker, (void *)me);
 
     lua_pushlightuserdata(lst, me);
     return 1;

@@ -50,18 +50,22 @@ struct saver_st * saver_make(float **inputs, int num_inputs, char *path) {
     if ( (ret->fh = fopen(path, "wb")) == NULL )
         die("saver_make: couldn't open path for writing");
 
+    printf("creating header sample rate at %p\n", sample_rate);
+
     // write the header
     // sample rate, big-endian
-    header[16] = (sample_rate >> 24) & 0xFF;
-    header[17] = (sample_rate >> 16) & 0xFF;
-    header[18] = (sample_rate >> 8 ) & 0xFF;
-    header[19] =  sample_rate        & 0xFF;
+    header[16] = ((*sample_rate) >> 24) & 0xFF;
+    header[17] = ((*sample_rate) >> 16) & 0xFF;
+    header[18] = ((*sample_rate) >> 8 ) & 0xFF;
+    header[19] =  (*sample_rate)        & 0xFF;
 
     // number of inputs, big-endian
     header[5*4    ] = (num_inputs >> 24) & 0xFF;
     header[5*4 + 1] = (num_inputs >> 16) & 0xFF;
     header[5*4 + 2] = (num_inputs >>  8) & 0xFF;
     header[5*4 + 3] =  num_inputs        & 0xFF;
+
+    printf("done\n");
 
     fwrite(header, 4 + 5*4, 1, ret->fh);
 

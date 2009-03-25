@@ -9,7 +9,7 @@
 void osc_sawtooth_ticker(void * info) {
     struct osc_sawtooth_st * me = (struct osc_sawtooth_st *)info;
 
-    me->now += *(me->frequency) / sample_rate * 2;
+    me->now += *(me->frequency) / *sample_rate * 2;
     if ( me->now > 1 ) me->now -= 2;
 }
 

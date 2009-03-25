@@ -7,6 +7,7 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#include "helpers.h"
 #include "luabind/bind.h"
 #include "die.h"
 
@@ -46,6 +47,7 @@ void initialize_lua(void) {
 int main (int argc, char **argv) {
     int i;
 
+    ii_init();
     sranddev();
     initialize_lua();
 

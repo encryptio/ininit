@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
     saver = (void *) saver_make_single((float *)mainwave, "audio/testsine.au");
 
-    ii_run(sample_rate * 10);
+    ii_run(*sample_rate * 10);
 
     exit(0);
 }

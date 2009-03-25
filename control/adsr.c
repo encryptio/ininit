@@ -19,7 +19,7 @@ void control_adsr_ticker(void * info) {
                 me->now = 1;
                 me->state = control_adsr_decay;
             } else {
-                me->now += 1/(*me->attack * sample_rate);
+                me->now += 1/(*me->attack * *sample_rate);
                 if ( me->now > 1 ) {
                     me->now = 1;
                     me->state = control_adsr_decay;
@@ -30,7 +30,7 @@ void control_adsr_ticker(void * info) {
                 me->now = *me->sustain;
                 me->state = control_adsr_sustain;
             } else {
-                me->now -= 1/(*me->decay * sample_rate);
+                me->now -= 1/(*me->decay * *sample_rate);
                 if ( me->now < *me->sustain ) {
                     me->now = *me->sustain;
                     me->state = control_adsr_sustain;
@@ -44,7 +44,7 @@ void control_adsr_ticker(void * info) {
         if ( me->state == control_adsr_off ) {
             // nothing
         } else if ( me->state == control_adsr_release ) {
-            me->now -= 1/(*me->release * sample_rate);
+            me->now -= 1/(*me->release * *sample_rate);
             if ( me->now < 0 ) {
                 me->now = 0;
                 me->state = control_adsr_off;
