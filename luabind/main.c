@@ -45,6 +45,8 @@ void initialize_lua(void) {
 
 int main (int argc, char **argv) {
     int i;
+
+    sranddev();
     initialize_lua();
 
     if ( argc == 1 ) {
