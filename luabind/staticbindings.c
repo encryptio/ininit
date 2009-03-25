@@ -120,3 +120,55 @@ static int bind_makefn(lua_State *lst) {
     return 1;
 }
 
+
+
+struct lua_signals_table_add_st {
+    float now;
+    float **inputs;
+    int inputcount;
+};
+
+void bind_signals_table_add_ticker(void * info) {
+    struct lua_signals_table_add_st * me = (struct lua_signals_table_add_st *) info;
+    float new = 0;
+    int i;
+
+    for (i=0; i<me->inputcount; i++) {
+        new += *(me->inputs[i]);
+    }
+
+    me->now = new;
+}
+
+// !lua:signals_table_add -> bind_signals_table_add
+static int bind_signals_table_add(lua_State *lst) {
+    struct lua_signals_table_add_st * me;
+    int tablecount, i;
+
+    if ( (me = malloc(sizeof(*me))) == NULL )
+        die("bind_signals_table_add: couldn't malloc me");
+
+    luaL_checktype(lst, 1, LUA_TTABLE);
+
+    if ( (me->inputcount = lua_objlen(lst, 1)) == 0 )
+        die("bind_signals_table_add: table is empty");
+
+    if ( (me->inputs = malloc(sizeof(float*) * me->inputcount)) == NULL )
+        die("bind_signals_table_add: couldn't malloc inputs");
+
+    // iterate over the items of the table
+    i = 0;
+    lua_pushnil(lst);
+    while ( lua_next(lst, 1) ) {
+        if ( (me->inputs[i] = lua_touserdata(lst, -1)) == NULL )
+            die("bind_signals_table_add: not all values in the table are signals");
+
+        lua_pop(lst, 1); // take out the value, leaving the last key
+    }
+
+    me->now = 0;
+
+    lua_pushlightuserdata(lst, me);
+    return 1;
+}
+
