@@ -7,8 +7,8 @@
 #include "helpers.h"
 #include "die.h"
 
-#define ENVELOPE_DROP 0.008
-#define LOWPASS_ALPHA 0.07
+#define ENVELOPE_DROP 0.012
+#define LOWPASS_ALPHA 0.08
 
 void control_envelopefollower_ticker(void * info) {
     struct control_envelopefollower_st *me = (struct control_envelopefollower_st *)info;
