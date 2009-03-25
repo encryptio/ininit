@@ -14,7 +14,7 @@ env.Append( LIBS=['lua', 'sndfile'] )
 
 
 sharedcode = []
-for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile'):
+for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white'):
     sharedcode += env.Object(i + '.c')
 
 
