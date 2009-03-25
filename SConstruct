@@ -9,11 +9,12 @@ env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O2', '-ffast-math'] )
 env.Append( CPPPATH=['.', '/sw/include'] )
 env.Append( LIBPATH=['/sw/lib'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder} )
+env.Append( LIBS=['lua', 'sndfile'] )
 
 
 
 sharedcode = []
-for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower'):
+for i in Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile'):
     sharedcode += env.Object(i + '.c')
 
 
@@ -26,7 +27,7 @@ for file in Split(os.popen("find . -name \\*.h | sed 's/^\\.\\///'").read()):
 luabindsobj = env.Object('luabind/bind.c')
 Depends(luabindsobj, luabindscode)
 
-env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode, LIBS=['lua'])
+env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode)
 
 
 
