@@ -14,8 +14,8 @@ void control_envelopefollower_ticker(void * info) {
     struct control_envelopefollower_st *me = (struct control_envelopefollower_st *)info;
     float new = me->now * (1.0-ENVELOPE_DROP);
 
-    if ( fabs(*me->input) > new )
-        new = fabs(*me->input);
+    if ( fabsf(*me->input) > new )
+        new = fabsf(*me->input);
 
     me->now = me->now + LOWPASS_ALPHA * (new - me->now);
 }

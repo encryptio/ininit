@@ -10,7 +10,7 @@
 void control_adsr_ticker(void * info) {
     struct control_adsr_st *me = (struct control_adsr_st *)info;
     
-    if ( fabs(*me->trigger) > 0.5 ) {
+    if ( fabsf(*me->trigger) > 0.5 ) {
         // trigger down
         if ( me->state == control_adsr_off || me->state == control_adsr_release ) {
             me->state = control_adsr_attack;
