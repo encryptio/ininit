@@ -66,6 +66,7 @@ struct control_adsr_st * control_adsr_make(float *trigger, float *attack, float 
     ret->attack = attack;
     ret->decay = decay;
     ret->sustain = sustain;
+    ret->release = release;
     ret->trigger = trigger;
 
     ii_sampler_call(control_adsr_ticker, (void *)ret);
