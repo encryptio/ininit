@@ -1,9 +1,8 @@
 stop = getsamplerate() * 0.4
 
 ch = { 1, 0, 1, 0, 1, 1, 1, 0 }
-i = 0
 chlen = getsamplerate()*0.054
-trigger = makefn(100, function () i = i + 100; return ch[(math.floor(i/chlen) % #ch) + 1] end)
+trigger = makefn(100, function () return ch[(math.floor(getcurrentsample()/chlen) % #ch) + 1] end)
 
 mainfreq = 110
 frch = {}
@@ -16,7 +15,7 @@ table.insert(frch, mainfreq * 2^( 6/12))
 table.insert(frch, mainfreq * 2^( 5/12))
 table.insert(frch, mainfreq * 2^(-2/12))
 frlen = chlen * 4
-basefr = makefn(100, function () return frch[(math.floor(i/frlen) % #frch) + 1] end)
+basefr = makefn(100, function () return frch[(math.floor(getcurrentsample()/frlen) % #frch) + 1] end)
 
 ampctl = control_adsr(trigger, 0.004, 0.08, 0.3, 0.3)
 lpctl  = control_adsr(trigger, 0.03,  0.2,  0.08, 0.1)

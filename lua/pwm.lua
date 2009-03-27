@@ -1,8 +1,10 @@
+basefreq = 440 * 2^(-40/12)
+
 for ch=0,1 do
     waves = {}
 
-    for i=1,30 do
-        fr = makefn(i, function (x) return x*2 + 40 end, control_brownian(0.0001))
+    for i=1,100 do
+        fr = makefn(i, function (x) return x*1.5 + basefreq end, control_brownian(0.0001))
         width = makefn(i, function (x) return (x+1)/2 end, control_brownian(0.0001))
         wave = osc_square(0, fr, width)
 
@@ -22,5 +24,5 @@ for ch=0,1 do
     end
 end
 
-saver(left, right, "audio/pwm.au")
-run(30)
+saver(left, "audio/pwm.au")
+run(10)
