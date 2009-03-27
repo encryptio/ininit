@@ -16,6 +16,8 @@ float filterres = 0.999;
 int main(int argc, char **argv) {
     float *saw, *filtered;
 
+    ii_init();
+
     saw = (float *) osc_sawtooth_make(0, &freq);
     filtered = (float *) filter_bandpass_make(saw, &filterfreq, &filterres);
 

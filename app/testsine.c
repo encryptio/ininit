@@ -21,6 +21,8 @@ void fn_ticker(void * info) {
 int main(int argc, char **argv) {
     float *mainwave;
 
+    ii_init();
+
     freqwave = (float *) osc_sine_make(0, &freqwave_speed);
     ii_sampler_call(fn_ticker, NULL);
 
