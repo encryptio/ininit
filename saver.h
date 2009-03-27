@@ -15,7 +15,7 @@ struct saver_st {
     int buffer_used;
 };
 
-struct saver_st * saver_make(float **inputs, int num_inputs, char *path);
-struct saver_st * saver_make_single(float *input, char *path);
+void saver_make(float **inputs, int num_inputs, char *path);
+void saver_make_single(float *input, char *path);
 
 #endif

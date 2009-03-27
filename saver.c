@@ -33,7 +33,7 @@ void saver_ticker(void * info) {
     }
 }
 
-struct saver_st * saver_make(float **inputs, int num_inputs, char *path) {
+void saver_make(float **inputs, int num_inputs, char *path) {
     struct saver_st *ret;
     char header[4 + 5*4] = {
         '.', 's', 'n', 'd', // magic number
@@ -74,11 +74,9 @@ struct saver_st * saver_make(float **inputs, int num_inputs, char *path) {
 
     // and set up the sampler
     ii_sampler_call(saver_ticker, (void *)ret);
-
-    return ret;
 }
 
-struct saver_st * saver_make_single(float *input, char *path) {
+void saver_make_single(float *input, char *path) {
     float **inputs;
 
     if ( (inputs = malloc(sizeof(float *))) == NULL )
@@ -86,6 +84,6 @@ struct saver_st * saver_make_single(float *input, char *path) {
 
     inputs[0] = input;
 
-    return saver_make(inputs, 1, path);
+    saver_make(inputs, 1, path);
 }
 
