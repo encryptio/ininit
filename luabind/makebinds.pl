@@ -38,6 +38,8 @@ sub make_bindings {
                     print "    char *$ar->[1];\n";
                 } elsif ( $ar->[0] eq 'bool' ) {
                     print "    int $ar->[1];\n";
+                } elsif ( $ar->[0] eq 'int' ) {
+                    print "    int $ar->[1];\n";
                 } else { die }
             }
 
@@ -59,6 +61,8 @@ sub make_bindings {
                     print "    $ar->[1] = (char *) luaL_checkstring(lst, $argno);\n\n";
                 } elsif ( $ar->[0] eq 'bool' ) {
                     print "    $ar->[1] = lua_toboolean(lst, $argno) ? 1 : 0;\n\n";
+                } elsif ( $ar->[0] eq 'int' ) {
+                    print "    $ar->[1] = (int) lua_tointeger(lst, $argno);\n\n";
                 } else { die }
             }
 
@@ -98,6 +102,8 @@ sub parse_cdef {
             push @argdefs, ['string', $1];
         } elsif ( $ar =~ /^bool\s+([a-z_]+)$/ ) {
             push @argdefs, ['bool', $1];
+        } elsif ( $ar =~ /^int\s+([a-z_])+$/ ) {
+            push @argdefs, ['int', $1];
         } else {
             die "Don't know how to deal with cdef argument '$ar'";
         }
