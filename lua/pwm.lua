@@ -3,7 +3,7 @@ basefreq = 440 * 2^(-40/12)
 for ch=0,1 do
     waves = {}
 
-    for i=1,100 do
+    for i=1,5 do
         fr = makefn(i, function (x) return x*1.5 + basefreq end, control_brownian(0.0001))
         width = makefn(i, function (x) return (x+1)/2 end, control_brownian(0.0001))
         wave = osc_square(0, fr, width)
