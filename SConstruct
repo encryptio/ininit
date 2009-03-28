@@ -5,7 +5,7 @@ import os
 bindingbuilder = Builder(action = "perl luabind/makebinds.pl -builtins $SOURCE -header `find . -name \\*.h | sed 's/^\\.\\///'` > $TARGET")
 
 env = Environment( ENV = os.environ )
-env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O2', '-ffast-math'] )
+env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O3', '-ffast-math'] )
 env.Append( CPPPATH=['.'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder} )
 env.Append( LIBS=['lua', 'sndfile'] )
