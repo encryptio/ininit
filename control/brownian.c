@@ -22,7 +22,7 @@ void control_brownian_ticker(void * info) {
     me->fnow = (double)(me->now = new) / (*me->filterat + 0.0005) * 0.02;
 }
 
-struct control_brownian_st * control_brownian_make(float *filterat) {
+float * control_brownian_make(float *filterat) {
     struct control_brownian_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -34,6 +34,6 @@ struct control_brownian_st * control_brownian_make(float *filterat) {
 
     ii_sampler_call(control_brownian_ticker, (void *)ret);
 
-    return ret;
+    return &ret->fnow;
 }
 

@@ -11,7 +11,7 @@ struct control_frequencyestimator_st {
 };
 
 // !lua:control_frequencyestimator -> control_frequencyestimator_make(float *input)
-struct control_frequencyestimator_st * control_frequencyestimator_make(float *input);
+float * control_frequencyestimator_make(float *input);
 
 #endif
 

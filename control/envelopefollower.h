@@ -9,7 +9,7 @@ struct control_envelopefollower_st {
 };
 
 // !lua:control_envelopefollower -> control_envelopefollower_make(float *input)
-struct control_envelopefollower_st * control_envelopefollower_make(float *input);
+float * control_envelopefollower_make(float *input);
 
 #endif
 

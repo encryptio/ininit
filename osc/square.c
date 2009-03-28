@@ -15,7 +15,7 @@ void osc_square_ticker(void * info) {
     me->now = me->phase > *me->width ? 1 : -1;
 }
 
-struct osc_square_st * osc_square_make(float phase, float *frequency, float *width) {
+float * osc_square_make(float phase, float *frequency, float *width) {
     struct osc_square_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -28,6 +28,6 @@ struct osc_square_st * osc_square_make(float phase, float *frequency, float *wid
 
     ii_sampler_call(osc_square_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

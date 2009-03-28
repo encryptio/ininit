@@ -23,10 +23,10 @@ int main(int argc, char **argv) {
 
     ii_init();
 
-    freqwave = (float *) osc_sine_make(0, &freqwave_speed);
+    freqwave = osc_sine_make(0, &freqwave_speed);
     ii_sampler_call(fn_ticker, NULL);
 
-    mainwave = (float *) osc_sine_make(0, &freq);
+    mainwave = osc_sine_make(0, &freq);
 
     saver_make_single(mainwave, "audio/testsine.au");
 

@@ -18,7 +18,7 @@ void osc_sine_ticker(void * info) {
     me->now = cosf(me->phase);
 }
 
-struct osc_sine_st * osc_sine_make(float phase, float *frequency) {
+float * osc_sine_make(float phase, float *frequency) {
     struct osc_sine_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -29,6 +29,6 @@ struct osc_sine_st * osc_sine_make(float phase, float *frequency) {
 
     ii_sampler_call(osc_sine_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

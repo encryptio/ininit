@@ -32,7 +32,7 @@ void input_sndfile_ticker(void * info) {
     me->now = me->buffer[me->bufferat++];
 }
 
-struct input_sndfile_st * input_sndfile_make(float *trigger, char *path, int startnow) {
+float * input_sndfile_make(float *trigger, char *path, int startnow) {
     struct input_sndfile_st *ret;
     SF_INFO sfinfo;
 
@@ -55,6 +55,6 @@ struct input_sndfile_st * input_sndfile_make(float *trigger, char *path, int sta
 
     ii_sampler_call(input_sndfile_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

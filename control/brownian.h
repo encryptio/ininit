@@ -12,7 +12,7 @@ struct control_brownian_st {
 };
 
 // !lua:control_brownian -> control_brownian_make(float *filterat)
-struct control_brownian_st * control_brownian_make(float *filterat);
+float * control_brownian_make(float *filterat);
 
 #endif
 

@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
 
     ii_init();
 
-    saw = (float *) osc_sawtooth_make(0, &freq);
-    filtered = (float *) filter_bandpass_make(saw, &filterfreq, &filterres);
+    saw = osc_sawtooth_make(0, &freq);
+    filtered = filter_bandpass_make(saw, &filterfreq, &filterres);
 
     saver_make_single(filtered, "audio/testsaw.au");
 

@@ -48,7 +48,7 @@ void control_frequencyestimator_controlticker(void * info) {
     printf("set to %f, bestpoint is %d with cost %f\n", me->now, bestpoint, bestcost);
 }
 
-struct control_frequencyestimator_st * control_frequencyestimator_make(float *input) {
+float * control_frequencyestimator_make(float *input) {
     struct control_frequencyestimator_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -64,6 +64,6 @@ struct control_frequencyestimator_st * control_frequencyestimator_make(float *in
     ii_sampler_call(control_frequencyestimator_ticker, (void *)ret);
     ii_control_call(control_frequencyestimator_controlticker, (void *)ret, RUNEVERY);
 
-    return ret;
+    return &ret->now;
 }
 

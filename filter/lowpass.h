@@ -15,7 +15,7 @@ struct filter_lowpass_st {
 };
 
 // !lua:filter_lowpass -> filter_lowpass_make(float *input, float *frequency, float *resonance)
-struct filter_lowpass_st * filter_lowpass_make(float *input, float *frequency, float *resonance);
+float * filter_lowpass_make(float *input, float *frequency, float *resonance);
 
 #endif
 

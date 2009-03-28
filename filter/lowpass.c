@@ -20,7 +20,7 @@ void filter_lowpass_ticker(void * info) {
     me->speed *= *me->res;
 }
 
-struct filter_lowpass_st * filter_lowpass_make(float *input, float *frequency, float *resonance) {
+float * filter_lowpass_make(float *input, float *frequency, float *resonance) {
     struct filter_lowpass_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -38,6 +38,6 @@ struct filter_lowpass_st * filter_lowpass_make(float *input, float *frequency, f
     ii_sampler_move(&(ret->pos), &(ret->now));
     ii_sampler_call(filter_lowpass_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

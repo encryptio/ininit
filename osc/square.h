@@ -11,7 +11,7 @@ struct osc_square_st {
 };
 
 // !lua:osc_square -> osc_square_make(float phase, float *frequency, float *width)
-struct osc_square_st * osc_square_make(float phase, float *frequency, float *width);
+float * osc_square_make(float phase, float *frequency, float *width);
 
 #endif
 

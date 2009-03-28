@@ -20,7 +20,7 @@ void control_envelopefollower_ticker(void * info) {
     me->now = me->now + LOWPASS_ALPHA * (new - me->now);
 }
 
-struct control_envelopefollower_st * control_envelopefollower_make(float *input) {
+float * control_envelopefollower_make(float *input) {
     struct control_envelopefollower_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -31,6 +31,6 @@ struct control_envelopefollower_st * control_envelopefollower_make(float *input)
 
     ii_sampler_call(control_envelopefollower_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

@@ -13,7 +13,7 @@ void osc_sawtooth_ticker(void * info) {
     if ( me->now > 1 ) me->now -= 2;
 }
 
-struct osc_sawtooth_st * osc_sawtooth_make(float phase, float *frequency) {
+float * osc_sawtooth_make(float phase, float *frequency) {
     struct osc_sawtooth_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -24,6 +24,6 @@ struct osc_sawtooth_st * osc_sawtooth_make(float phase, float *frequency) {
 
     ii_sampler_call(osc_sawtooth_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

@@ -10,7 +10,7 @@ struct osc_sine_st {
 };
 
 // !lua:osc_sine -> osc_sine_make(float phase, float *frequency)
-struct osc_sine_st * osc_sine_make(float phase, float *frequency);
+float * osc_sine_make(float phase, float *frequency);
 
 #endif
 

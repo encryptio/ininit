@@ -12,7 +12,7 @@ void osc_white_ticker(void * info) {
     me->now = ((float)rand()) / RAND_MAX * 2 - 1;
 }
 
-struct osc_white_st * osc_white_make() {
+float * osc_white_make() {
     struct osc_white_st * ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -20,6 +20,6 @@ struct osc_white_st * osc_white_make() {
 
     ii_sampler_call(osc_white_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

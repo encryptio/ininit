@@ -11,7 +11,7 @@ struct distort_atan_st {
 };
 
 // !lua:distort_atan -> distort_atan_make(float *input, float *amplitude)
-struct distort_atan_st * distort_atan_make(float *input, float *amplitude);
+float * distort_atan_make(float *input, float *amplitude);
 
 #endif
 

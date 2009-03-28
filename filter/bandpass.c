@@ -27,7 +27,7 @@ void filter_bandpass_ticker(void * info) {
     me->last1 = me->next;
 }
 
-struct filter_bandpass_st * filter_bandpass_make(float *input, float *frequency, float *resonance) {
+float * filter_bandpass_make(float *input, float *frequency, float *resonance) {
     struct filter_bandpass_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -48,6 +48,6 @@ struct filter_bandpass_st * filter_bandpass_make(float *input, float *frequency,
     ii_sampler_move(&(ret->next), &(ret->now));
     ii_sampler_call(filter_bandpass_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

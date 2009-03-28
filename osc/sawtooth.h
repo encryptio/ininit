@@ -9,7 +9,7 @@ struct osc_sawtooth_st {
 };
 
 // !lua:osc_sawtooth -> osc_sawtooth_make(float phase, float *frequency)
-struct osc_sawtooth_st * osc_sawtooth_make(float phase, float *frequency);
+float * osc_sawtooth_make(float phase, float *frequency);
 
 #endif
 

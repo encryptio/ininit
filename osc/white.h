@@ -8,7 +8,7 @@ struct osc_white_st {
 };
 
 // !lua:osc_white -> osc_white_make()
-struct osc_white_st * osc_white_make();
+float * osc_white_make();
 
 #endif
 

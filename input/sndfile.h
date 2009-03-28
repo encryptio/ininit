@@ -17,7 +17,7 @@ struct input_sndfile_st {
 };
 
 // !lua:input_sndfile -> input_sndfile_make(float *trigger, char *path, bool startnow)
-struct input_sndfile_st * input_sndfile_make(float *trigger, char *path, int startnow);
+float * input_sndfile_make(float *trigger, char *path, int startnow);
 
 #endif
 

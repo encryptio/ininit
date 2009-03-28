@@ -15,7 +15,7 @@ void distort_atan_ticker(void * info) {
     me->next = atanf( *(me->input) * *(me->amp) )/(PI/2);
 }
 
-struct distort_atan_st * distort_atan_make(float *input, float *amplitude) {
+float * distort_atan_make(float *input, float *amplitude) {
     struct distort_atan_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -29,6 +29,6 @@ struct distort_atan_st * distort_atan_make(float *input, float *amplitude) {
     ii_sampler_move(&(ret->next), &(ret->now));
     ii_sampler_call(distort_atan_ticker, (void *)ret);
 
-    return ret;
+    return &ret->now;
 }
 

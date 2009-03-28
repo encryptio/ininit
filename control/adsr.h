@@ -22,7 +22,7 @@ struct control_adsr_st {
 };
 
 // !lua:control_adsr -> control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release)
-struct control_adsr_st * control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release);
+float * control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release);
 
 #endif
 
