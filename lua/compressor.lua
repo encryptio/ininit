@@ -1,4 +1,4 @@
-input = input_sndfile(0, "/Users/ckastorff/compressme.wav", 1)
+input = input_sndfile(0, "/Users/ckastorff/compressme.wav", 1, 1)
 
 threshold = -10
 ratio = 1/3

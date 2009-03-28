@@ -1,4 +1,4 @@
-input = input_sndfile(0, "/Users/ckastorff/soundofvocoder.wav", 1)
+input = input_sndfile(0, "/Users/ckastorff/soundofvocoder.wav", 1, 1)
 
 freqs = { 150, 150 * 2^(-2/12), 150, 150 * 2^(-2/12), 150 * 2^(2/12), 150 * 2^(3/12), 150 * 2^(2/12), 150 * 2^(-2/12) }
 fr = makefn(40, function () return (freqs[(math.floor(getcurrentsample()/getsamplerate() / 0.35) % #freqs) + 1] or freqs[1]) end);
@@ -11,7 +11,7 @@ fr = makefn(1, function (v) ov = ov*mix + v*(1-mix); return ov end, fr)
 
 base = makefn(1, function (saw, white) return saw*0.7 + white*0.2 end, osc_sawtooth(0, fr), osc_white())
 --base = osc_white()
---base = makefn(1, function(snd, white) return snd*0.7 + white*0.03 end, input_sndfile(0, "/Users/ckastorff/code/c/ininit/audio/pwm.au", 1), osc_white())
+--base = makefn(1, function(snd, white) return snd*0.7 + white*0.03 end, input_sndfile(0, "/Users/ckastorff/code/c/ininit/audio/pwm.au", 1, 1), osc_white())
 
 bands = {}
 

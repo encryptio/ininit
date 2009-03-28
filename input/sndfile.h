@@ -13,11 +13,13 @@ struct input_sndfile_st {
     int bufferused, bufferat;
     SNDFILE *snd;
     char lastdown;
+    int channelcount;
+    int channel;
     float *trigger;
 };
 
-// !lua:input_sndfile -> input_sndfile_make(float *trigger, char *path, bool startnow)
-float * input_sndfile_make(float *trigger, char *path, int startnow);
+// !lua:input_sndfile -> input_sndfile_make(float *trigger, char *path, int channel, bool startnow)
+float * input_sndfile_make(float *trigger, char *path, int channel, int startnow);
 
 #endif
 

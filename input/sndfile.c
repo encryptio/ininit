@@ -29,22 +29,32 @@ void input_sndfile_ticker(void * info) {
         me->bufferat = 0;
     }
 
-    me->now = me->buffer[me->bufferat++];
+    me->now = me->buffer[me->bufferat + me->channel - 1];
+    me->bufferat += me->channelcount;
 }
 
-float * input_sndfile_make(float *trigger, char *path, int startnow) {
+float * input_sndfile_make(float *trigger, char *path, int channel, int startnow) {
     struct input_sndfile_st *ret;
     SF_INFO sfinfo;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
         die("input_sndfile_make: couldn't malloc ret");
 
+    if ( channel < 1 )
+        die("input_sndfile_make: channel is less than one.");
+
     ret->now = 0;
     ret->bufferused = 0;
     ret->bufferat = 0;
+    ret->channel = channel;
     ret->trigger = trigger;
     if ( (ret->snd = sf_open(path, SFM_READ, &sfinfo)) == NULL )
         die("input_sndfile_make: couldn't open sndfile");
+
+    ret->channelcount = sfinfo.channels;
+
+    if ( channel > sfinfo.channels )
+        die("input_sndfile_make: the file doesn't have that many channels");
 
     if ( ! sfinfo.seekable )
         die("input_sndfile_make: input file is not seekable");
