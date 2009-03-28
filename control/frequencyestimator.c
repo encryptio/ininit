@@ -8,8 +8,8 @@
 #include "helpers.h"
 #include "die.h"
 
-#define BUFFER_SIZE_SECONDS 0.016
-#define RUNEVERY 100
+#define BUFFER_SIZE_SECONDS 0.017
+#define RUNEVERY 40
 
 void control_frequencyestimator_ticker(void * info) {
     struct control_frequencyestimator_st *me = (struct control_frequencyestimator_st *)info;
@@ -26,26 +26,35 @@ void control_frequencyestimator_ticker(void * info) {
 void control_frequencyestimator_controlticker(void * info) {
     struct control_frequencyestimator_st *me = (struct control_frequencyestimator_st *)info;
     int bestpoint, i, j;
-    float bestcost, thiscost;
+    float bestcost, thiscost, allcosts, cmndf;
+
+    allcosts = 0;
 
     bestpoint = -1;
     bestcost = 0;
 
-    for (i=20; i<me->buffer_size*0.4-2; i++) {
+    // this implements the first three steps of the YIN F0 estimator
+    // "YIN, a fundamental frequency estimator for speech and music"
+    // -- 2002, Alain de Cheveigne and Hideki Kawahara
+
+    for (i=0; i<me->buffer_size/2; i++) {
         thiscost = 0;
         for (j=0; j<me->buffer_size-i-1; j++) {
-            thiscost += (me->buffer[j] - me->buffer[j+i]) * (me->buffer[j] - me->buffer[j+i]); // nearly YIN
+            thiscost += (me->buffer[j] - me->buffer[j+i]) * (me->buffer[j] - me->buffer[j+i]);
         }
-        if ( bestpoint == -1 || bestcost > thiscost ) {
-            printf("new best, old point is %d, new point is %d with cost %f\n", bestpoint, bestpoint, bestcost);
-            bestpoint = i;
-            bestcost = thiscost;
+        allcosts += thiscost;
+
+        if ( i > 20 ) {
+            cmndf = thiscost / allcosts * i;
+
+            if ( bestpoint == -1 || bestcost > cmndf ) {
+                bestpoint = i;
+                bestcost = cmndf;
+            }
         }
     }
 
     me->now = (float)(*sample_rate) / bestpoint; // frequency, in hz
-
-    printf("set to %f, bestpoint is %d with cost %f\n", me->now, bestpoint, bestcost);
 }
 
 float * control_frequencyestimator_make(float *input) {
