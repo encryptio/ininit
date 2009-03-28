@@ -3,7 +3,7 @@ input = input_sndfile(0, "/Users/ckastorff/compressme.wav", 1)
 threshold = -10
 ratio = 1/3
 
-env = control_envelopefollower(input)
+env = control_envelopefollower(input, 0.003)
 comp = makefn(1, function (e, v)
     dBin = math.log10(e) * 10
     if dBin > threshold then

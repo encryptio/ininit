@@ -21,10 +21,10 @@ for fr_i = 1, 200 do
         ibp = filter_bandpass(input, fr, 0.9987)
         bbp = filter_bandpass(base,  fr, 0.9987)
 
-        ienv = control_envelopefollower(ibp)
-        benv = control_envelopefollower(bbp)
+        ienv = control_envelopefollower(ibp, 0.015)
+        benv = control_envelopefollower(bbp, 0.015)
 
-        thisband = makefn(1, function (ie, be, sig) return ie/be*sig end, ienv, benv, bbp)
+        thisband = makefn(1, function (ie, be, sig) return (be > 0.0001 and ie/be*sig or 0) end, ienv, benv, bbp)
 
         table.insert(bands, thisband)
     end
