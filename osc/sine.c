@@ -24,6 +24,7 @@ float * osc_sine_make(float phase, float *frequency) {
     if ( (ret = malloc(sizeof(*ret))) == NULL )
         die("osc_sine_make: couldn't malloc");
 
+    ret->now = 0;
     ret->phase = phase * 2 * PI;
     ret->frequency = frequency;
 
