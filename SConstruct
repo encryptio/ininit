@@ -1,3 +1,5 @@
+# this is a scons buildfile. http://www.scons.org/
+
 import os
 
 
