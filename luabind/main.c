@@ -57,6 +57,7 @@ int main (int argc, char **argv) {
     } else {
         if ( luaL_dofile(lst, argv[1]) ) {
             printf("error while executing %s: %s\n", argv[1], luaL_checkstring(lst, lua_gettop(lst)));
+            exit(1);
         }
     }
 
