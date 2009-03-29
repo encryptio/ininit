@@ -56,6 +56,16 @@ static int bind_getsamplerate(lua_State *lst) {
     return 1;
 }
 
+// !lua:gettime -> bind_gettime
+/* !doc:gettime()
+ *      Returns the current time in seconds. Equivalent to
+ *      getcurrentsample()/getsamplerate().
+ */
+static int bind_gettime(lua_State *lst) {
+    lua_pushnumber(lst, ((double) *current_sample) / ((double) *sample_rate));
+    return 1;
+}
+
 // !lua:runsamples -> bind_runsamples
 /* !doc:runsamples(count)
  *      Runs the currently defined systems for count samples. See also "run".
