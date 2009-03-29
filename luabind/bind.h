@@ -6,6 +6,7 @@
 #include "lua.h"
 
 void bind_ininit_lua_fns(lua_State * st);
+void lua_set_arguments(int argc, char **argv);
 
 #endif
 

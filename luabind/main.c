@@ -45,20 +45,18 @@ void initialize_lua(void) {
 }
 
 int main (int argc, char **argv) {
-    int i;
-
     ii_init();
     sranddev();
     initialize_lua();
+
+    lua_set_arguments(argc, argv);
 
     if ( argc == 1 ) {
         printf("Lua interpereter loop running.\n");
         interpereter_loop();
     } else {
-        for (i=1; i<argc; i++) {
-            if ( luaL_dofile(lst, argv[i]) ) {
-                printf("error while executing %s: %s\n", argv[i], luaL_checkstring(lst, lua_gettop(lst)));
-            }
+        if ( luaL_dofile(lst, argv[1]) ) {
+            printf("error while executing %s: %s\n", argv[1], luaL_checkstring(lst, lua_gettop(lst)));
         }
     }
 

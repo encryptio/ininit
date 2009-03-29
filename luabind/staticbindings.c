@@ -190,3 +190,19 @@ static int bind_signals_table_average(lua_State *lst) {
     return bind_signals_table_sum(lst, 1);
 }
 
+static int lua_arguments_argc;
+static char **lua_arguments_argv;
+
+void lua_set_arguments(int argc, char **argv) {
+    lua_arguments_argc = argc;
+    lua_arguments_argv = argv;
+}
+
+// !lua:getargs -> bind_get_arguments
+static int bind_get_arguments(lua_State *lst) {
+    int i;
+    for (i=2; i<lua_arguments_argc; i++)
+        lua_pushstring(lst, lua_arguments_argv[i]);
+    return lua_arguments_argc-2;
+}
+
