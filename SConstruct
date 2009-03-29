@@ -29,10 +29,10 @@ for file in Split(os.popen("find . -name \\*.h | sed 's/^\\.\\///'").read()):
 luabindsobj = env.Object('luabind/bind.c')
 Depends(luabindsobj, luabindscode)
 
-env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode)
+env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode, LIBS=['lua', 'sndfile'])
 
 
 
-env.Program(target='app/testsaw', source=['app/testsaw.c'] + sharedcode)
-env.Program(target='app/testsine', source=['app/testsine.c'] + sharedcode)
+env.Program(target='app/testsaw', source=['app/testsaw.c', 'die.o', 'helpers.o', 'saver.o', 'osc/sawtooth.o', 'filter/bandpass.o'])
+env.Program(target='app/testsine', source=['app/testsine.c', 'die.o', 'helpers.o', 'saver.o', 'osc/sine.o'])
 
