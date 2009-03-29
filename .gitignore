@@ -4,4 +4,6 @@
 /app/testsaw
 /app/testsine
 /ininit
+/docs/temp
+/docs/lua.txt
 *.o
