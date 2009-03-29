@@ -59,6 +59,69 @@ static int bind_run(lua_State *lst) {
     return 0;
 }
 
+struct lua_cycletable_st {
+    float now;
+    int at;
+    float **cycle;
+    int cyclecount;
+    int timelength;
+    int currentpoint;
+};
+
+void bind_cycletable_ticker(void * info) {
+    struct lua_cycletable_st * me = (struct lua_cycletable_st *) info;
+
+    me->currentpoint++;
+    if ( me->currentpoint > me->timelength ) {
+        me->currentpoint -= me->timelength;
+
+        me->at++;
+        if ( me->at >= me->cyclecount )
+            me->at = 0;
+    }
+
+    me->now = *(me->cycle[me->at]);
+}
+
+// !lua:cycletable -> bind_cycletable
+static int bind_cycletable(lua_State *lst) {
+    int argc = lua_gettop(lst);
+    struct lua_cycletable_st * me;
+    int inputcount, i;
+
+    if ( (me = malloc(sizeof(*me))) == NULL )
+        die("bind_cycletable: couldn't malloc me");
+
+    me->timelength = (int) ((double) luaL_checknumber(lst, 1) * *sample_rate);
+    me->at = 0;
+    me->now = 0;
+    me->currentpoint = 0;
+    me->cyclecount = lua_objlen(lst, 2);
+
+    if ( (me->cycle = malloc(sizeof(float*) * me->cyclecount)) == NULL )
+        die("bind_cycletable: couldn't malloc me->cycle");
+
+    // iterate over the items of the table
+    i = 0;
+    lua_pushnil(lst);
+    while ( lua_next(lst, 2) ) {
+        if ( (me->cycle[i] = lua_touserdata(lst, -1)) == NULL ) {
+            if ( (me->cycle[i] = malloc(sizeof(float*))) == NULL )
+                die("bind_cycletable: couldn't malloc space for constant signal");
+
+            *(me->cycle[i]) = (double) luaL_checknumber(lst, -1);
+        }
+
+        lua_pop(lst, 1); // take out the value, leaving the last key
+        i++;
+    }
+
+    ii_sampler_call(bind_cycletable_ticker, (void *)me);
+
+    lua_pushlightuserdata(lst, &me->now);
+    return 1;
+}
+
 struct lua_boundfn_st {
     float now;
     int refnum;

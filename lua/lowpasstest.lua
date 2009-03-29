@@ -1,8 +1,8 @@
 stop = getsamplerate() * 0.4
 
 ch = { 1, 0, 1, 0, 1, 1, 1, 0 }
-chlen = getsamplerate()*0.054
-trigger = makefn(100, function () return ch[(math.floor(getcurrentsample()/chlen) % #ch) + 1] end)
+chlen = 0.054
+trigger = cycletable(chlen, ch)
 
 mainfreq = 110
 frch = {}
@@ -15,7 +15,7 @@ table.insert(frch, mainfreq * 2^( 6/12))
 table.insert(frch, mainfreq * 2^( 5/12))
 table.insert(frch, mainfreq * 2^(-2/12))
 frlen = chlen * 4
-basefr = makefn(100, function () return frch[(math.floor(getcurrentsample()/frlen) % #frch) + 1] end)
+basefr = cycletable(frlen, frch)
 
 ampctl = control_adsr(trigger, 0.004, 0.08, 0.3, 0.3)
 lpctl  = control_adsr(trigger, 0.03,  0.2,  0.08, 0.1)
@@ -25,5 +25,5 @@ base = makefn(1, function (o, a) return o*a*0.3 end, osc_sawtooth(0, basefr), am
 filtered = filter_lowpass(base, lpfr, 0.9)
 
 saver(ampctl, lpctl, base, filtered, "audio/lowpasstest.au")
-run(frlen * #frch * 2 / getsamplerate())
+run(frlen * #frch * 2)
 
