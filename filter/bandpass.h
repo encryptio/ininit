@@ -18,6 +18,11 @@ struct filter_bandpass_st {
 };
 
 // !lua:filter_bandpass -> filter_bandpass_make(float *input, float *frequency, float *resonance)
+/* !doc:filter_bandpass(input, frequency, resonance)
+ *      Filters the given input with a bandpass around the given frequency.
+ *      The resonance parameter is [0:1), higher values mean a tighter band.
+ *      In all cases, the gain at the given frequency is 0dB.
+ */
 float * filter_bandpass_make(float *input, float *frequency, float *resonance);
 
 #endif

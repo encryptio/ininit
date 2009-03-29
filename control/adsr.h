@@ -22,6 +22,19 @@ struct control_adsr_st {
 };
 
 // !lua:control_adsr -> control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release)
+/* !doc:control_adsr(trigger, attack, decay, sustain, release)
+ *      Returns a signal representing the ADSR envelope for the given
+ *      arguments. Attack, decay, and release are measured in seconds. These
+ *      measurements are measured as the time it takes to go from zero to one,
+ *      not the time it takes for the actual given change. Sustain is the
+ *      value in (0,1] that you decay to and hold at while the trigger is
+ *      down.
+ *
+ *      Note: If the trigger is released before the attack happens, it does
+ *      not finish the attack to 1.0 but immediately goes into decay. If your
+ *      trigger is only one sample long, the envelope will probably be very,
+ *      very low level.
+ */
 float * control_adsr_make(float *trigger, float *attack, float *decay, float *sustain, float *release);
 
 #endif

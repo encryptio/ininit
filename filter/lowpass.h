@@ -15,6 +15,10 @@ struct filter_lowpass_st {
 };
 
 // !lua:filter_lowpass -> filter_lowpass_make(float *input, float *frequency, float *resonance)
+/* !doc:filter_lowpass(input, frequency, resonance)
+ *      Lowpass filter on input with the given frequency and resonance
+ *      in [0:1).
+ */
 float * filter_lowpass_make(float *input, float *frequency, float *resonance);
 
 #endif

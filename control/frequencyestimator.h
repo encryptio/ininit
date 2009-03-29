@@ -11,6 +11,9 @@ struct control_frequencyestimator_st {
 };
 
 // !lua:control_frequencyestimator -> control_frequencyestimator_make(float *input)
+/* !doc:control_frequencyestimator(input)
+ *      Estimates the fundamental frequency of the given input. TODO: details
+ */
 float * control_frequencyestimator_make(float *input);
 
 #endif

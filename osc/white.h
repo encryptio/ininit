@@ -8,6 +8,9 @@ struct osc_white_st {
 };
 
 // !lua:osc_white -> osc_white_make()
+/* !doc:osc_white()
+ *      Creates a white noise signal.
+ */
 float * osc_white_make();
 
 #endif

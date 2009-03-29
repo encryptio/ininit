@@ -9,6 +9,10 @@ struct osc_sawtooth_st {
 };
 
 // !lua:osc_sawtooth -> osc_sawtooth_make(float phase, float *frequency)
+/* !doc:osc_sawtooth(phase, frequency)
+ *      Creates a sawtooth wave at the given frequency and a starting offset
+ *      of phase (in [0:1))
+ */
 float * osc_sawtooth_make(float phase, float *frequency);
 
 #endif

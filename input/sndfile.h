@@ -19,6 +19,11 @@ struct input_sndfile_st {
 };
 
 // !lua:input_sndfile -> input_sndfile_make(float *trigger, char *path, int channel, bool startnow)
+/* !doc:input_sndfile(trigger, path, channel, startnow)
+ *      Opens the audio file at path and reads the given channel. If startnow
+ *      is true, it plays instantly. The trigger tells when to start the sound
+ *      over - when its absolute value is greater than 0.5.
+ */
 float * input_sndfile_make(float *trigger, char *path, int channel, int startnow);
 
 #endif

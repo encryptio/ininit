@@ -13,6 +13,9 @@
 #include "lauxlib.h"
 
 // !lua:saver -> bind_saver
+/* !doc:saver(signal, [signal, ...], filename)
+ *      Saves the signals as channels in an .au file named by the last argument.
+ */
 static int bind_saver(lua_State *lst) {
     int argc = lua_gettop(lst);
     float **inputs;
@@ -36,24 +39,36 @@ static int bind_saver(lua_State *lst) {
 }
 
 // !lua:getcurrentsample -> bind_getcurrentsample
+/* !doc:getcurrentsample()
+ *      Returns the current sample position in the render.
+ */
 static int bind_getcurrentsample(lua_State *lst) {
     lua_pushinteger(lst, *current_sample);
     return 1;
 }
 
 // !lua:getsamplerate -> bind_getsamplerate
+/* !doc:getsamplerate()
+ *      Returns the sample rate.
+ */
 static int bind_getsamplerate(lua_State *lst) {
     lua_pushnumber(lst, *sample_rate);
     return 1;
 }
 
 // !lua:runsamples -> bind_runsamples
+/* !doc:runsamples(count)
+ *      Runs the currently defined systems for count samples. See also "run".
+ */
 static int bind_runsamples(lua_State *lst) {
     ii_run( luaL_checkint(lst, 1) );
     return 0;
 }
 
 // !lua:run -> bind_run
+/* !doc:run(seconds)
+ *      Runs the currently defined systems for the given amount of time.
+ */
 static int bind_run(lua_State *lst) {
     ii_run( (int)( (float)luaL_checknumber(lst, 1) * *sample_rate ) );
     return 0;
@@ -84,6 +99,19 @@ void bind_cycletable_ticker(void * info) {
 }
 
 // !lua:cycletable -> bind_cycletable
+/* !doc:cycletable(length, table)
+ *      Takes a table of signals and a length in seconds, returns a new signal
+ *      that represents switching to each signal in the table in sequence every
+ *      length seconds.
+ *      
+ *      Examples:
+ *
+ *      mark = { 1, 0, 1, 0, 1, 1, 1, 0 }
+ *      trigger = control_totrigger( cycletable(0.095, mark) )
+ *
+ *      frtable = { 110, 220, 110, 110, 55, 110, 220, 110 }
+ *      freq = cycletable(0.3, frtable)
+ */
 static int bind_cycletable(lua_State *lst) {
     int argc = lua_gettop(lst);
     struct lua_cycletable_st * me;
@@ -149,6 +177,16 @@ void bind_makefn_ticker(void * info) {
 }
 
 // !lua:makefn -> bind_makefn
+/* !doc:makefn(frequency, function, [signal, ...])
+ *      Creates a new signal representing the return value of the given
+ *      function when given arguments of the current values of the given
+ *      signals, run every frequency samples.
+ *
+ *      Example:
+ *
+ *      fr = makefn(50, function (x) return x*10+440 end, osc_sine(0, 0.7))
+ *      wave = osc_sine(0, fr)
+ */
 static int bind_makefn(lua_State *lst) {
     int i;
     int argc = lua_gettop(lst);
@@ -244,11 +282,19 @@ static int bind_signals_table_sum(lua_State *lst, int fromaverage) {
 }
 
 // !lua:signals_table_add -> bind_signals_table_add
+/* !doc:signals_table_add(table)
+ *      Returns a signal representing the sum of the values of all the signals
+ *      in the given table.
+ */
 static int bind_signals_table_add(lua_State *lst) {
     return bind_signals_table_sum(lst, 0);
 }
 
 // !lua:signals_table_average -> bind_signals_table_average
+/* !doc:signals_table_average(table)
+ *      Returns a signal representing the average of the values of all the
+ *      signals in the given table.
+ */
 static int bind_signals_table_average(lua_State *lst) {
     return bind_signals_table_sum(lst, 1);
 }
@@ -262,6 +308,15 @@ void lua_set_arguments(int argc, char **argv) {
 }
 
 // !lua:getargs -> bind_get_arguments
+/* !doc:getargs()
+ *      Returns a list of strings that are the program arguments.
+ *
+ *      Example:
+ *
+ *      -- run with: ininit script.lua outfile.au
+ *      filename = getargs()
+ *      saver(wave, filename)
+ */
 static int bind_get_arguments(lua_State *lst) {
     int i;
     for (i=2; i<lua_arguments_argc; i++)

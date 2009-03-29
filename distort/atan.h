@@ -11,6 +11,10 @@ struct distort_atan_st {
 };
 
 // !lua:distort_atan -> distort_atan_make(float *input, float *amplitude)
+/* !doc:distort_atan(input, amplitude)
+ *      Adds a distortion effect based on the atan() function. The input is
+ *      multiplied by amplitude before going into this function.
+ */
 float * distort_atan_make(float *input, float *amplitude);
 
 #endif

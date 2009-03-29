@@ -10,6 +10,10 @@ struct osc_sine_st {
 };
 
 // !lua:osc_sine -> osc_sine_make(float phase, float *frequency)
+/* !doc:osc_sine(phase, frequency)
+ *      Creates a sine wave at the given frequency, starting at the given
+ *      phase (in [0:1)).
+ */
 float * osc_sine_make(float phase, float *frequency);
 
 #endif
