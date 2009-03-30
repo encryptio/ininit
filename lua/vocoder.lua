@@ -30,7 +30,7 @@ for fr_i = 1, 200 do
     end
 end
 
-out = signals_table_add(bands)
+out = table_add(bands)
 
 saver(input, base, out, "audio/vocoder.au")
 run(2)

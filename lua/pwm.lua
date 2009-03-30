@@ -11,7 +11,7 @@ for ch=0,1 do
         table.insert(waves, wave)
     end
 
-    out = signals_table_average(waves)
+    out = table_average(waves)
 
     ov = 0
     mix = 0.8
