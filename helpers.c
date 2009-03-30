@@ -10,14 +10,14 @@
 #define MAX_FUNCTIONS 5000
 #endif
 
-struct { pullfn fn; void *info; } funs[MAX_FUNCTIONS];
-int numfns = 0;
+static struct { pullfn fn; void *info; } funs[MAX_FUNCTIONS];
+static int numfns = 0;
 
-struct { pullfn fn; void *info; int freq; } ctrl[MAX_FUNCTIONS];
-int numctrl = 0;
+static struct { pullfn fn; void *info; int freq; } ctrl[MAX_FUNCTIONS];
+static int numctrl = 0;
 
-struct { float *src, *dst; } move[MAX_FUNCTIONS];
-int nummove = 0;
+static struct { float *src, *dst; } move[MAX_FUNCTIONS];
+static int nummove = 0;
 
 void ii_init(void) {
     if ( (current_sample = malloc(sizeof(*current_sample))) == NULL )
