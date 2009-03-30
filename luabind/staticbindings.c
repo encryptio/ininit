@@ -239,53 +239,63 @@ static int bind_makefn(lua_State *lst) {
 
 
 
-struct lua_signals_table_add_st {
+struct lua_signals_table_fold_st {
     float now;
     float **inputs;
     int inputcount;
     float multiply;
+    int multiplyall;
 };
 
-void bind_signals_table_add_ticker(void * info) {
-    struct lua_signals_table_add_st * me = (struct lua_signals_table_add_st *) info;
-    float new = 0;
+void bind_signals_table_fold_ticker(void * info) {
+    struct lua_signals_table_fold_st * me = (struct lua_signals_table_fold_st *) info;
+    float new;
     int i;
 
-    for (i=0; i<me->inputcount; i++) {
-        new += *(me->inputs[i]);
+    if ( me->multiplyall ) {
+        new = 1;
+        for (i=0; i<me->inputcount; i++) {
+            new *= *(me->inputs[i]);
+        }
+    } else {
+        new = 0;
+        for (i=0; i<me->inputcount; i++) {
+            new += *(me->inputs[i]);
+        }
     }
 
     me->now = new * me->multiply;
 }
 
-static int bind_signals_table_sum(lua_State *lst, int fromaverage) {
-    struct lua_signals_table_add_st * me;
+static int bind_signals_table_fold(lua_State *lst, int fromaverage, int domultiply) {
+    struct lua_signals_table_fold_st * me;
     int tablecount, i;
 
     if ( (me = malloc(sizeof(*me))) == NULL )
-        die("bind_signals_table_add: couldn't malloc me");
+        die("bind_signals_table_fold: couldn't malloc me");
 
     luaL_checktype(lst, 1, LUA_TTABLE);
 
     if ( (me->inputcount = lua_objlen(lst, 1)) == 0 )
-        die("bind_signals_table_add: table is empty");
+        die("bind_signals_table_fold: table is empty");
 
     if ( (me->inputs = malloc(sizeof(float*) * me->inputcount)) == NULL )
-        die("bind_signals_table_add: couldn't malloc inputs");
+        die("bind_signals_table_fold: couldn't malloc inputs");
 
     // iterate over the items of the table
     i = 0;
     lua_pushnil(lst);
     while ( lua_next(lst, 1) ) {
         if ( (me->inputs[i++] = lua_touserdata(lst, -1)) == NULL )
-            die("bind_signals_table_add: not all values in the table are signals");
+            die("bind_signals_table_fold: not all values in the table are signals");
 
         lua_pop(lst, 1); // take out the value, leaving the last key
     }
 
     me->now = 0;
     me->multiply = fromaverage ? 1.0/me->inputcount : 1;
-    ii_sampler_call(bind_signals_table_add_ticker, (void *)me);
+    me->multiplyall = domultiply;
+    ii_sampler_call(bind_signals_table_fold_ticker, (void *)me);
 
     lua_pushlightuserdata(lst, me);
     return 1;
@@ -297,7 +307,7 @@ static int bind_signals_table_sum(lua_State *lst, int fromaverage) {
  *      in the given table.
  */
 static int bind_signals_table_add(lua_State *lst) {
-    return bind_signals_table_sum(lst, 0);
+    return bind_signals_table_fold(lst, 0, 0);
 }
 
 // !lua:signals_table_average -> bind_signals_table_average
@@ -306,7 +316,16 @@ static int bind_signals_table_add(lua_State *lst) {
  *      signals in the given table.
  */
 static int bind_signals_table_average(lua_State *lst) {
-    return bind_signals_table_sum(lst, 1);
+    return bind_signals_table_fold(lst, 1, 0);
+}
+
+// !lua:signals_table_multiply -> bind_signals_table_multiply
+/* !doc:signals_table_multiply(table)
+ *      Returns a signal representing the product of all the values of all the
+ *      signals in the given table.
+ */
+static int bind_signals_table_multiply(lua_State *lst) {
+    return bind_signals_table_fold(lst, 0, 1);
 }
 
 static int lua_arguments_argc;
