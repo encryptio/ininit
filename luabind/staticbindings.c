@@ -286,10 +286,15 @@ static int bind_signals_table_fold(lua_State *lst, int fromaverage, int domultip
     i = 0;
     lua_pushnil(lst);
     while ( lua_next(lst, 1) ) {
-        if ( (me->inputs[i++] = lua_touserdata(lst, -1)) == NULL )
-            die("bind_signals_table_fold: not all values in the table are signals");
+        if ( (me->inputs[i] = lua_touserdata(lst, -1)) == NULL ) {
+            if ( (me->inputs[i] = malloc(sizeof(float*))) == NULL )
+                die("bind_signals_table_fold: couldn't malloc space for constant signal");
+
+            *(me->inputs[i]) = luaL_checknumber(lst, -1);
+        }
 
         lua_pop(lst, 1); // take out the value, leaving the last key
+        i++;
     }
 
     me->now = 0;
