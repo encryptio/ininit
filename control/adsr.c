@@ -12,45 +12,59 @@ void control_adsr_ticker(void * info) {
     
     if ( fabsf(*me->trigger) > 0.5 ) {
         // trigger down
-        if ( me->state == control_adsr_off || me->state == control_adsr_release ) {
-            me->state = control_adsr_attack;
-        } else if ( me->state == control_adsr_attack ) {
-            if ( *me->attack == 0 ) {
-                me->now = 1;
-                me->state = control_adsr_decay;
-            } else {
-                me->now += 1/(*me->attack * *sample_rate);
-                if ( me->now > 1 ) {
+        switch ( me->state ) {
+            case control_adsr_off:
+            case control_adsr_release:
+                me->state = control_adsr_attack;
+                break;
+
+            case control_adsr_attack:
+                if ( *me->attack == 0 ) {
                     me->now = 1;
                     me->state = control_adsr_decay;
+                } else {
+                    me->now += 1/(*me->attack * *sample_rate);
+                    if ( me->now > 1 ) {
+                        me->now = 1;
+                        me->state = control_adsr_decay;
+                    }
                 }
-            }
-        } else if ( me->state == control_adsr_decay ) {
-            if ( *me->decay == 0 ) {
-                me->now = *me->sustain;
-                me->state = control_adsr_sustain;
-            } else {
-                me->now -= 1/(*me->decay * *sample_rate);
-                if ( me->now < *me->sustain ) {
+                break;
+
+            case control_adsr_decay:
+                if ( *me->decay == 0 ) {
                     me->now = *me->sustain;
                     me->state = control_adsr_sustain;
+                } else {
+                    me->now -= 1/(*me->decay * *sample_rate);
+                    if ( me->now < *me->sustain ) {
+                        me->now = *me->sustain;
+                        me->state = control_adsr_sustain;
+                    }
                 }
-            }
-        } else if ( me->state == control_adsr_sustain ) {
-            me->now = *me->sustain;
+                break;
+
+            case control_adsr_sustain:
+                me->now = *me->sustain;
+                break;
         }
     } else {
         // trigger up
-        if ( me->state == control_adsr_off ) {
-            // nothing
-        } else if ( me->state == control_adsr_release ) {
-            me->now -= 1/(*me->release * *sample_rate);
-            if ( me->now < 0 ) {
-                me->now = 0;
-                me->state = control_adsr_off;
-            }
-        } else {
-            me->state = control_adsr_release;
+        switch ( me->state ) {
+            case control_adsr_off:
+                // nothing
+                break;
+
+            case control_adsr_release:
+                me->now -= 1/(*me->release * *sample_rate);
+                if ( me->now < 0 ) {
+                    me->now = 0;
+                    me->state = control_adsr_off;
+                }
+                break;
+
+            default:
+                me->state = control_adsr_release;
         }
     }
 }
