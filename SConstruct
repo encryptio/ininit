@@ -8,6 +8,7 @@ bindingbuilder = Builder(action = "perl luabind/makebinds.pl -builtins $SOURCE -
 docbuilder = Builder(action = "perl docs/makedocs.pl $SOURCE > $TARGET")
 def catgenerator(source, target, env, for_signature):
     mystr = 'cat '
+    source.sort(key=str)
     for i in source:
         mystr += str(i)+' '
     mystr += '> '+str(target[0])
