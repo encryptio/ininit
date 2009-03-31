@@ -23,7 +23,7 @@ env.Append( LIBS=['lua', 'sndfile'] )
 env.ParseConfig('pkg-config --cflags --libs sndfile lua')
 
 
-sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle')
+sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin')
 
 
 sharedcode = []
