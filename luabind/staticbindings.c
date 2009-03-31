@@ -80,7 +80,7 @@ static int bind_runsamples(lua_State *lst) {
  *      Runs the currently defined systems for the given amount of time.
  */
 static int bind_run(lua_State *lst) {
-    ii_run( (int)( (float)luaL_checknumber(lst, 1) * *sample_rate ) );
+    ii_run( (int)( (double)luaL_checknumber(lst, 1) * *sample_rate ) );
     return 0;
 }
 
