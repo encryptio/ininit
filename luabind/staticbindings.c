@@ -170,26 +170,17 @@ struct lua_boundfn_st {
 
 void bind_makefn_ticker(void * info) {
     struct lua_boundfn_st * me = (struct lua_boundfn_st *) info;
-    int i, tb, tn;
+    int i;
 
     // push the function
     lua_rawgeti(me->lst, LUA_REGISTRYINDEX, me->refnum);
-
-    tb = lua_gettop(me->lst);
 
     // and the arguments
     for (i=0; i<me->inputcount; i++)
         lua_pushnumber(me->lst, (lua_Number) *(me->inputs[i]));
 
-
     // call it
     lua_call(me->lst, me->inputcount, 1);
-
-    tn = lua_gettop(me->lst);
-
-    // make sure they actually return *something*
-    if ( tb == tn )
-        die("makefn_ticker: function didn't return anything!");
 
     // and grab the result
     me->now = (float) luaL_checknumber(me->lst, -1);
