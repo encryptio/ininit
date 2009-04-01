@@ -183,7 +183,7 @@ void bind_makefn_ticker(void * info) {
     lua_call(me->lst, me->inputcount, 1);
 
     // and grab the result
-    me->now = (float) luaL_checknumber(me->lst, -1);
+    me->now = (float) lua_tonumber(me->lst, -1);
 }
 
 // !lua:makefn -> bind_makefn
