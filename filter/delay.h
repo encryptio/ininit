@@ -7,6 +7,7 @@ struct filter_delay_st {
     float now;
     float *buffer;
     int buffersize;
+    int bufferpos;
     float *input;
     float *length;
     float *feedback;
