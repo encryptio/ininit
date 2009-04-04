@@ -21,8 +21,7 @@ env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O3', '-ffast-math'] )
 env.Append( CPPPATH=['.'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder, 'MakeDocs': docbuilder, 'Cat': catbuilder} )
 env.Append( LIBS=['lua', 'sndfile'] )
-env.Append( FRAMEWORKS=['OpenAL', 'GLUT', 'OpenGL'] )
-env.Append( FRAMEWORKPATH=['/System/Library/Frameworks'] )
+env.Append( FRAMEWORKS=['OpenAL'] )
 env.ParseConfig('pkg-config --cflags --libs sndfile lua')
 
 
