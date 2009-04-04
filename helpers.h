@@ -13,6 +13,9 @@ typedef void (*pullfn)(void *info);
 // note: memory leaks can occur if ii_init is called more than once
 void ii_init(void);
 
+// call just before a clean exit to cleanly close all modules
+void ii_death(void);
+
 // adds a callback to be called for every sample
 void ii_sampler_call(pullfn sampler, void *info);
 
@@ -21,6 +24,9 @@ void ii_control_call(pullfn control, void *info, int frequency);
 
 // runs *dst = *src for every sample
 void ii_sampler_move(float *src, float *dst);
+
+// when the system is closed, these functions are run
+void ii_death_call(pullfn fn, void *info);
 
 // run for a certain number of samples
 void ii_run(int samples);

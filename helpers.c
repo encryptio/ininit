@@ -19,6 +19,9 @@ static int numctrl = 0;
 static struct { float *src, *dst; } move[MAX_FUNCTIONS];
 static int nummove = 0;
 
+static struct { pullfn fn; void *info; } death[MAX_FUNCTIONS];
+static int numdeath = 0;
+
 void ii_init(void) {
     if ( (current_sample = malloc(sizeof(*current_sample))) == NULL )
         die("ii_init: couldn't malloc space for current_sample");
@@ -61,6 +64,15 @@ void ii_sampler_move(float *src, float *dst) {
     nummove++;
 }
 
+void ii_death_call(pullfn fn, void *info) {
+    if ( numdeath == MAX_FUNCTIONS )
+        die("ii_death_call: too many functions");
+
+    death[numdeath].fn = fn;
+    death[numdeath].info = info;
+    numdeath++;
+}
+
 void ii_run(int samples) {
     int i, j;
 
@@ -78,5 +90,12 @@ void ii_run(int samples) {
 
         (*current_sample)++;
     }
+}
+
+void ii_death(void) {
+    int i;
+
+    for (i=0; i<numdeath; i++)
+        (death[i].fn)(death[i].info);
 }
 

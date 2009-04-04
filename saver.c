@@ -33,6 +33,16 @@ void saver_ticker(void * info) {
     }
 }
 
+void saver_death(void * info) {
+    struct saver_st *me = (struct saver_st *)info;
+
+    if ( me->buffer_used ) {
+        fwrite(&(me->buffer), me->buffer_used, 1, me->fh);
+    }
+
+    fclose(me->fh);
+}
+
 void saver_make(float **inputs, int num_inputs, char *path) {
     struct saver_st *ret;
     char header[4 + 5*4] = {
@@ -74,6 +84,7 @@ void saver_make(float **inputs, int num_inputs, char *path) {
 
     // and set up the sampler
     ii_sampler_call(saver_ticker, (void *)ret);
+    ii_death_call(saver_death, (void *)ret);
 }
 
 void saver_make_single(float *input, char *path) {

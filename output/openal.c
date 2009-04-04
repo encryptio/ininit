@@ -53,6 +53,19 @@ void output_openal_ticker(void * info) {
     }
 }
 
+void output_openal_death(void * info) {
+    struct output_openal_st *me = (struct output_openal_st *)info;
+    ALint val;
+
+    // wait for the buffers to play out
+    do {
+        alGetSourcei(me->source, AL_SOURCE_STATE, &val);
+        usleep(5000);
+    } while ( val == AL_PLAYING );
+
+    // ew, not cleaning up after ourselves
+}
+
 void output_openal_make(float *input) {
     struct output_openal_st *ret;
 
@@ -80,5 +93,6 @@ void output_openal_make(float *input) {
 
     // and set up the sampler
     ii_sampler_call(output_openal_ticker, (void *)ret);
+    ii_death_call(output_openal_death, (void *)ret);
 }
 

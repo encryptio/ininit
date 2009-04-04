@@ -61,6 +61,8 @@ int main (int argc, char **argv) {
         }
     }
 
+    ii_death();
+
     exit(0);
 }
 
