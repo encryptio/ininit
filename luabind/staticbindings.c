@@ -40,16 +40,20 @@ static int bind_saver(lua_State *lst) {
 }
 
 // !lua:output_openal -> bind_output_openal
-/* !doc:output_openal(signal)
- *      Plays the given signal in real-time with OpenAL.
+/* !doc:output_openal(left, right)
+ *      Plays the given signals in real-time with OpenAL.
  */
 static int bind_output_openal(lua_State *lst) {
-    float *input;
+    float *left;
+    float *right;
 
-    if ( (input = lua_touserdata(lst, 1)) == NULL )
-        die("bind_output_openal: argument is not a signal");
+    if ( (left = lua_touserdata(lst, 1)) == NULL )
+        die("bind_output_openal: 1st argument is not a signal");
 
-    output_openal_make(input);
+    if ( (right = lua_touserdata(lst, 2)) == NULL )
+        die("bind_output_openal: 2nd argument is not a signal");
+
+    output_openal_make(left, right);
 
     return 0;
 }

@@ -11,11 +11,13 @@ void output_openal_ticker(void * info) {
     struct output_openal_st *me = (struct output_openal_st *)info;
     ALint val;
 
-    me->buf[me->bufat++] = (ALCshort) ( 32768 * *me->input );
+    // XXX: is it possible to overflow between these two?
+    me->buf[me->bufat++] = (ALCshort) ( 32768 * *me->left );
+    me->buf[me->bufat++] = (ALCshort) ( 32768 * *me->right );
 
     if ( me->bufat >= OUTPUT_OPENAL_BUFFER_SIZE/sizeof(ALCshort) ) {
         if ( me->albuffersused < OUTPUT_OPENAL_NUM_BUFFERS ) {
-            alBufferData(me->buffers[me->whichalbuf], AL_FORMAT_MONO16, me->buf, OUTPUT_OPENAL_BUFFER_SIZE, (ALuint) *sample_rate);
+            alBufferData(me->buffers[me->whichalbuf], AL_FORMAT_STEREO16, me->buf, OUTPUT_OPENAL_BUFFER_SIZE, (ALuint) *sample_rate);
             alSourceQueueBuffers(me->source, 1, &me->buffers[me->whichalbuf]);
             me->whichalbuf++;
             me->albuffersused++;
@@ -34,7 +36,7 @@ void output_openal_ticker(void * info) {
             }
 
             alSourceUnqueueBuffers(me->source, 1, me->buffers);
-            alBufferData(me->buffers[me->whichalbuf], AL_FORMAT_MONO16, me->buf, OUTPUT_OPENAL_BUFFER_SIZE, (ALuint) *sample_rate);
+            alBufferData(me->buffers[me->whichalbuf], AL_FORMAT_STEREO16, me->buf, OUTPUT_OPENAL_BUFFER_SIZE, (ALuint) *sample_rate);
             alSourceQueueBuffers(me->source, 1, &me->buffers[me->whichalbuf]);
             me->whichalbuf++;
 
@@ -66,7 +68,7 @@ void output_openal_death(void * info) {
     // ew, not cleaning up after ourselves
 }
 
-void output_openal_make(float *input) {
+void output_openal_make(float *left, float *right) {
     struct output_openal_st *ret;
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
@@ -85,7 +87,8 @@ void output_openal_make(float *input) {
     if ( alGetError() != AL_NO_ERROR )
         die("output_openal_make: couldn't generate things");
     ret->albuffersused = 0;
-    ret->input = input;
+    ret->left = left;
+    ret->right = right;
 
     if ( (ret->buf = malloc(OUTPUT_OPENAL_BUFFER_SIZE)) == NULL )
         die("output_openal_make: couldn't malloc space for ret->buf");

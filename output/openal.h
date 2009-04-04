@@ -10,7 +10,8 @@
 #define OUTPUT_OPENAL_BUFFER_SIZE 4096
 
 struct output_openal_st {
-    float *input;
+    float *left;
+    float *right;
     ALCshort *buf;
     int bufat;
 
@@ -22,6 +23,6 @@ struct output_openal_st {
     int whichalbuf;
 };
 
-void output_openal_make(float *input);
+void output_openal_make(float *left, float *right);
 
 #endif
