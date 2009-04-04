@@ -5,6 +5,7 @@
 #include "luabind/bind.h"
 
 #include "saver.h"
+#include "output/openal.h"
 #include "die.h"
 #include "helpers.h"
 
@@ -35,6 +36,21 @@ static int bind_saver(lua_State *lst) {
     path = (char *)luaL_checkstring(lst, -1);
 
     saver_make(inputs, num_inputs, path);
+    return 0;
+}
+
+// !lua:output_openal -> bind_output_openal
+/* !doc:output_openal(signal)
+ *      Plays the given signal in real-time with OpenAL.
+ */
+static int bind_output_openal(lua_State *lst) {
+    float *input;
+
+    if ( (input = lua_touserdata(lst, 1)) == NULL )
+        die("bind_output_openal: argument is not a signal");
+
+    output_openal_make(input);
+
     return 0;
 }
 
