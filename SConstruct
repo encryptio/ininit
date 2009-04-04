@@ -21,10 +21,12 @@ env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O3', '-ffast-math'] )
 env.Append( CPPPATH=['.'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder, 'MakeDocs': docbuilder, 'Cat': catbuilder} )
 env.Append( LIBS=['lua', 'sndfile'] )
+env.Append( FRAMEWORKS=['OpenAL', 'GLUT', 'OpenGL'] )
+env.Append( FRAMEWORKPATH=['/System/Library/Frameworks'] )
 env.ParseConfig('pkg-config --cflags --libs sndfile lua')
 
 
-sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay')
+sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay output/openal')
 
 
 sharedcode = []
