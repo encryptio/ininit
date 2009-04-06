@@ -9,8 +9,8 @@
 #include "helpers.h"
 #include "die.h"
 
-#define BUFFER_OVERSIZE 200
-#define BUFFER_MAX_FILLED 0.75
+#define BUFFER_OVERSIZE 500
+#define BUFFER_MAX_FILLED 0.5
 
 #define GETBUFFER(me,i) ((i) > me->buffersize ? 0 : (i) < me->bufferpos ? me->buffer[me->bufferpos-(i)-1] : me->buffer[me->buffersize-(i)+me->bufferpos-1])
 
