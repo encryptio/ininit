@@ -10,10 +10,17 @@
 void output_openal_ticker(void * info) {
     struct output_openal_st *me = (struct output_openal_st *)info;
     ALint val;
+    int lv, rv;
 
     // XXX: is it possible to overflow between these two?
-    me->buf[me->bufat++] = (ALCshort) ( 32768 * *me->left );
-    me->buf[me->bufat++] = (ALCshort) ( 32768 * *me->right );
+    lv = 32768 * *me->left;
+    rv = 32768 * *me->right;
+    if ( lv > 32767 ) lv = 32767;
+    if ( rv > 32767 ) rv = 32767;
+    if ( lv < -32767 ) lv = -32767;
+    if ( rv < -32767 ) rv = -32767;
+    me->buf[me->bufat++] = (ALCshort) lv;
+    me->buf[me->bufat++] = (ALCshort) rv;
 
     if ( me->bufat >= OUTPUT_OPENAL_BUFFER_SIZE/sizeof(ALCshort) ) {
         if ( me->albuffersused < OUTPUT_OPENAL_NUM_BUFFERS ) {
