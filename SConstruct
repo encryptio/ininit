@@ -16,12 +16,45 @@ def catgenerator(source, target, env, for_signature):
 catbuilder = Builder(generator = catgenerator)
 
 
+# from http://www.scons.org/wiki/UsingPkgConfig
+def CheckPKG(context, name):
+    context.Message( 'Checking for %s... ' % name )
+    ret = context.TryAction('pkg-config --exists \'%s\'' % name)[0]
+    context.Result( ret )
+    return ret
+
+
 env = Environment( ENV = os.environ )
 env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O3', '-ffast-math'] )
 env.Append( CPPPATH=['.'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder, 'MakeDocs': docbuilder, 'Cat': catbuilder} )
-env.Append( FRAMEWORKS=['OpenAL'] )
-env.ParseConfig('pkg-config --cflags --libs sndfile lua')
+
+
+# TODO: cleanliness and possible integration with the platform checking below
+conf = Configure(env, custom_tests = { 'CheckPKG' : CheckPKG })
+
+luapcname = ''
+if conf.CheckPKG('lua'):
+    luapcname = 'lua'
+elif conf.CheckPKG('lua5.1'):
+    luapcname = 'lua5.1'
+else:
+    print 'lua not found.'
+    Exit(1)
+
+env = conf.Finish()
+
+# TODO: should this be inside the configure?
+env.ParseConfig('pkg-config --cflags --libs sndfile '+luapcname)
+
+if env['PLATFORM'] == 'darwin':
+    env.Append( FRAMEWORKS=['OpenAL'] )
+    env.Append( CPPDEFINES=['-DOpenAL_DARWIN'] )
+else:
+    # something else ... hope it has openal
+    env.Append( CPPDEFINES=['-DOpenAL_NORMAL'] )
+    env.ParseConfig('pkg-config --cflags --libs openal')
+
 
 
 sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay output/openal')
