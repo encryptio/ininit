@@ -20,7 +20,6 @@ env = Environment( ENV = os.environ )
 env.Append( CCFLAGS=['-Wall', '-Wno-unused-variable', '-O3', '-ffast-math'] )
 env.Append( CPPPATH=['.'] )
 env.Append( BUILDERS={'LuaMakeBindings' : bindingbuilder, 'MakeDocs': docbuilder, 'Cat': catbuilder} )
-env.Append( LIBS=['lua', 'sndfile'] )
 env.Append( FRAMEWORKS=['OpenAL'] )
 env.ParseConfig('pkg-config --cflags --libs sndfile lua')
 
@@ -42,7 +41,7 @@ for file in Split(os.popen("find . -name \\*.h | sed 's/^\\.\\///'").read()):
 luabindsobj = env.Object('luabind/bind.c')
 Depends(luabindsobj, luabindscode)
 
-env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode, LIBS=['lua', 'sndfile'])
+env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode)
 
 
 
