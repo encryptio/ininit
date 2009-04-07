@@ -1,6 +1,7 @@
 // Copyright 2009 Jack Christopher Kastorff
 
 #include <stdlib.h>
+#include <math.h>
 
 #include "osc/triangle.h"
 #include "die.h"
@@ -10,7 +11,7 @@ void osc_triangle_ticker(void * info) {
     struct osc_triangle_st * me = (struct osc_triangle_st *)info;
     float min;
 
-    me->phase += *(me->frequency) / *sample_rate;
+    me->phase += fabs(*me->frequency) / *sample_rate;
     if ( me->phase > 1 ) me->phase -= 1;
 
     if ( me->phase < *me->balance ) {

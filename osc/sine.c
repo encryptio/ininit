@@ -12,7 +12,7 @@
 void osc_sine_ticker(void * info) {
     struct osc_sine_st * me = (struct osc_sine_st *)info;
 
-    me->phase += *(me->frequency) * PI * 2 / *sample_rate;
+    me->phase += fabs(*me->frequency) * PI * 2 / *sample_rate;
     if ( me->phase > PI*2 ) me->phase -= PI*2;
 
     me->now = cosf(me->phase);

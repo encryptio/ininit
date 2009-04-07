@@ -1,6 +1,7 @@
 // Copyright 2009 Jack Christopher Kastorff
 
 #include <stdlib.h>
+#include <math.h>
 
 #include "osc/square.h"
 #include "die.h"
@@ -9,7 +10,7 @@
 void osc_square_ticker(void * info) {
     struct osc_square_st * me = (struct osc_square_st *)info;
 
-    me->phase += *(me->frequency) / *sample_rate;
+    me->phase += fabs(*me->frequency) / *sample_rate;
     if ( me->phase > 1 ) me->phase -= 1;
 
     me->now = me->phase > *me->width ? 1 : -1;
