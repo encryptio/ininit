@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "lua.h"
 #include "lualib.h"
@@ -46,7 +47,7 @@ void initialize_lua(void) {
 
 int main (int argc, char **argv) {
     ii_init();
-    sranddev();
+    srand((unsigned) time(NULL));
     initialize_lua();
 
     lua_set_arguments(argc, argv);
