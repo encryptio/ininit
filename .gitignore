@@ -7,3 +7,4 @@
 /docs/temp
 /docs/lua.txt
 *.o
+/config.log
