@@ -12,6 +12,15 @@
 #include "luabind/bind.h"
 #include "die.h"
 
+// experimentally derived, may not be optimal for all programs
+
+// in samples
+#define GARBAGE_COLLECT_INTERVAL 2000
+
+#define GARBAGE_STEPMULT 180
+#define GARBAGE_PAUSE    150
+#define GARBAGE_INCAMOUNT 2
+
 lua_State *lst;
 
 // use standard malloc procedures
@@ -35,6 +44,10 @@ void interpereter_loop(void) {
     }
 }
 
+void dosomegarbagecollection(void *info) {
+    lua_gc(lst, LUA_GCSTEP, GARBAGE_INCAMOUNT);
+}
+
 void initialize_lua(void) {
     lst = lua_newstate(alloclua, NULL);
 
@@ -51,6 +64,11 @@ int main (int argc, char **argv) {
     initialize_lua();
 
     lua_set_arguments(argc, argv);
+
+    lua_gc(lst, LUA_GCSETSTEPMUL, GARBAGE_STEPMULT);
+    lua_gc(lst, LUA_GCSETPAUSE,   GARBAGE_PAUSE);
+
+    ii_control_call(dosomegarbagecollection, NULL, GARBAGE_COLLECT_INTERVAL);
 
     if ( argc == 1 ) {
         printf("Lua interpereter loop running.\n");
