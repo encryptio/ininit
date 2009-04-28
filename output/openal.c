@@ -98,7 +98,7 @@ void output_openal_make(float *left, float *right) {
     ret->right = right;
     ret->whichalbuf = 0;
 
-    if ( (ret->buf = malloc(OUTPUT_OPENAL_BUFFER_SIZE*sizeof(ALCshort))) == NULL )
+    if ( (ret->buf = malloc(OUTPUT_OPENAL_BUFFER_SIZE)) == NULL )
         die("output_openal_make: couldn't malloc space for ret->buf");
     ret->bufat = 0;
 
