@@ -12,13 +12,14 @@ void output_openal_ticker(void * info) {
     ALint val;
     int lv, rv;
 
-    // XXX: is it possible to overflow between these two?
     lv = 32768 * *me->left;
     rv = 32768 * *me->right;
     if ( lv > 32767 ) lv = 32767;
     if ( rv > 32767 ) rv = 32767;
     if ( lv < -32767 ) lv = -32767;
     if ( rv < -32767 ) rv = -32767;
+    // WARNING: this assumes that OUTPUT_OPENAL_BUFFER_SIZE is a multiple of 2*sizeof(ALCshort) = 4.
+    // If this assumption is broken, data may be written into unallocated space.
     me->buf[me->bufat++] = (ALCshort) lv;
     me->buf[me->bufat++] = (ALCshort) rv;
 

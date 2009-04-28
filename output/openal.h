@@ -15,6 +15,8 @@
 #endif
 
 #define OUTPUT_OPENAL_NUM_BUFFERS 10
+// WARNING: OUTPUT_OPENAL_BUFFER_SIZE should always be a multiple of 2*sizeof(ALCshort) = 4
+// for reasons explained in output/openal.c
 #define OUTPUT_OPENAL_BUFFER_SIZE 4096
 
 struct output_openal_st {
