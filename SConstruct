@@ -57,7 +57,7 @@ else:
 
 
 
-sourcefiles = Split('helpers die osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay output/openal control/expandtrigger')
+sourcefiles = Split('helpers osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay output/openal control/expandtrigger')
 
 
 sharedcode = []
@@ -78,8 +78,8 @@ env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode
 
 
 
-env.Program(target='app/testsaw', source=['app/testsaw.c', 'die.o', 'helpers.o', 'saver.o', 'osc/sawtooth.o', 'filter/bandpass.o'])
-env.Program(target='app/testsine', source=['app/testsine.c', 'die.o', 'helpers.o', 'saver.o', 'osc/sine.o'])
+env.Program(target='app/testsaw', source=['app/testsaw.c', 'helpers.o', 'saver.o', 'osc/sawtooth.o', 'filter/bandpass.o'])
+env.Program(target='app/testsine', source=['app/testsine.c', 'helpers.o', 'saver.o', 'osc/sine.o'])
 
 
 Mkdir('docs/temp')
