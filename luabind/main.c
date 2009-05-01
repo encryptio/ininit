@@ -25,7 +25,6 @@ lua_State *lst;
 
 // use standard malloc procedures
 void * alloclua(void *ud, void *ptr, size_t osize, size_t nsize) {
-    void * ret;
     if ( nsize == 0 ) {
         free(ptr);
         return NULL;
