@@ -204,6 +204,8 @@ void bind_makefn_ticker(void * info) {
 
     // and grab the result
     me->now = (float) lua_tonumber(me->lst, -1);
+
+    lua_pop(me->lst, 1);
 }
 
 // !lua:makefn -> bind_makefn
