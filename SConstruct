@@ -55,6 +55,13 @@ else:
     env.Append( CPPDEFINES=['-DOpenAL_NORMAL'] )
     env.ParseConfig('pkg-config --cflags --libs openal')
 
+    uname = os.popen("uname").read().rstrip()
+
+    # openbsd forgets some includes
+    if uname == 'OpenBSD':
+        env.MergeFlags( '-pthread -lossaudio' )
+
+
 
 
 sourcefiles = Split('helpers osc/sawtooth saver filter/bandpass osc/sine distort/atan control/adsr control/envelopefollower input/sndfile osc/white control/frequencyestimator osc/square control/brownian filter/lowpass distort/lofimat control/totrigger osc/triangle filter/chamberlin filter/delay output/openal control/expandtrigger')
