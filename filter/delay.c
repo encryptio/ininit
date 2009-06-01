@@ -42,6 +42,7 @@ void filter_delay_ticker(void * info) {
 
         me->buffersize = newlen;
         me->buffer = newbuf;
+        me->bufferpos = 0;
     }
 
     // fractional delay interpolated with a cubic spline
