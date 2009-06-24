@@ -41,7 +41,7 @@ void interpereter_loop(void) {
 
     while ( fgets(line,INTERPERETER_LINE_LENGTH,stdin) != 0 ) {
         if ( luaL_dostring(lst, line) ) {
-            printf("error: %s\n", luaL_checkstring(lst, lua_gettop(lst)));
+            fprintf(stderr, "error: %s\n", luaL_checkstring(lst, lua_gettop(lst)));
         }
     }
 }
@@ -78,7 +78,7 @@ int main (int argc, char **argv) {
         interpereter_loop();
     } else {
         if ( luaL_dofile(lst, argv[1]) ) {
-            printf("error while executing %s: %s\n", argv[1], luaL_checkstring(lst, lua_gettop(lst)));
+            fprintf(stderr, "error while executing %s: %s\n", argv[1], luaL_checkstring(lst, lua_gettop(lst)));
             exit(1);
         }
     }
