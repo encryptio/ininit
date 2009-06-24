@@ -21,6 +21,8 @@
 #define GARBAGE_PAUSE    150
 #define GARBAGE_INCAMOUNT 2
 
+#define INTERPERETER_LINE_LENGTH 1000
+
 lua_State *lst;
 
 // use standard malloc procedures
@@ -34,9 +36,9 @@ void * alloclua(void *ud, void *ptr, size_t osize, size_t nsize) {
 }
 
 void interpereter_loop(void) {
-    char line[1000];
+    char line[INTERPERETER_LINE_LENGTH];
 
-    while ( gets(line) != 0 ) {
+    while ( fgets(line,INTERPERETER_LINE_LENGTH,stdin) != 0 ) {
         if ( luaL_dostring(lst, line) ) {
             printf("error: %s\n", luaL_checkstring(lst, lua_gettop(lst)));
         }
