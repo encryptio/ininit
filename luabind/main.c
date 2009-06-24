@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <time.h>
 
 #include "lua.h"
@@ -72,7 +73,8 @@ int main (int argc, char **argv) {
     ii_control_call(dosomegarbagecollection, NULL, GARBAGE_COLLECT_INTERVAL);
 
     if ( argc == 1 ) {
-        printf("Lua interpereter loop running.\n");
+        if ( isatty(fileno(stdout)) )
+            printf("Lua interpereter loop running.\n");
         interpereter_loop();
     } else {
         if ( luaL_dofile(lst, argv[1]) ) {
