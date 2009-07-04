@@ -18,6 +18,7 @@
 // WARNING: OUTPUT_OPENAL_BUFFER_SIZE should always be a multiple of 2*sizeof(ALCshort) = 4
 // for reasons explained in output/openal.c
 #define OUTPUT_OPENAL_BUFFER_SIZE 4096
+#define OUTPUT_OPENAL_WAIT_TIME 2500 // 2.5ms
 
 struct output_openal_st {
     float *left;

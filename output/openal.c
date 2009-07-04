@@ -40,7 +40,7 @@ void output_openal_ticker(void * info) {
             while ( 1 ) {
                 alGetSourcei(me->source, AL_BUFFERS_PROCESSED, &val);
                 if ( val > 0 ) break;
-                usleep(5000); // 5ms
+                usleep(OUTPUT_OPENAL_WAIT_TIME);
             }
 
             alSourceUnqueueBuffers(me->source, 1, me->buffers);
