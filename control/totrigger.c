@@ -10,20 +10,10 @@
 void control_totrigger_ticker(void * info) {
     struct control_totrigger_st * me = (struct control_totrigger_st *)info;
 
-    if ( fabs(*me->input) > 0.5 ) {
-        switch ( me->state ) {
-            case control_totrigger_zeroed:
-                me->state = control_totrigger_mark;
-                break;
-
-            case control_totrigger_mark:
-                me->state = control_totrigger_hold;
-                break;
-
-            case control_totrigger_hold:
-                // stay
-                break;
-        }
+    if ( fabs(*me->input) > 0.51 && me->state == control_totrigger_zeroed ) {
+        me->state = control_totrigger_mark;
+    } else if ( fabs(*me->input) > 0.49 && (me->state == control_totrigger_mark || me->state == control_totrigger_hold) ) {
+        me->state = control_totrigger_hold;
     } else {
         me->state = control_totrigger_zeroed;
     }
