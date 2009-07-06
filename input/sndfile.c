@@ -49,15 +49,15 @@ float * input_sndfile_make(float *trigger, char *path, int channel, int startnow
     ret->channel = channel;
     ret->trigger = trigger;
     if ( (ret->snd = sf_open(path, SFM_READ, &sfinfo)) == NULL )
-        die("input_sndfile_make: couldn't open sndfile");
+        diem("input_sndfile_make: couldn't open sndfile", path);
 
     ret->channelcount = sfinfo.channels;
 
     if ( channel > sfinfo.channels )
-        die("input_sndfile_make: the file doesn't have that many channels");
+        diem("input_sndfile_make: the file doesn't have that many channels", path);
 
     if ( ! sfinfo.seekable )
-        die("input_sndfile_make: input file is not seekable");
+        diem("input_sndfile_make: input file is not seekable", path);
 
     // make sure we don't play right away unless triggered or told to
     if ( ! startnow )
