@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
+#include <string.h>
 
 #include "input/sndfile.h"
 #include "helpers.h"
@@ -36,6 +37,8 @@ void input_sndfile_ticker(void * info) {
 float * input_sndfile_make(float *trigger, char *path, int channel, int startnow) {
     struct input_sndfile_st *ret;
     SF_INFO sfinfo;
+
+    memset(&sfinfo, 0, sizeof(SF_INFO));
 
     if ( (ret = malloc(sizeof(*ret))) == NULL )
         die("input_sndfile_make: couldn't malloc ret");
