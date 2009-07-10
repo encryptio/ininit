@@ -1,0 +1,87 @@
+DESCRIPTION
+
+    ininit is a program that allows the user to write Lua scripts that read
+    audio files, do processing, play back certain signals in real time, save
+    audio files, or any combination of those. It is meant to be simple and
+    powerful, and avoids unnecessary complexity for the sole sake of
+    performance.
+
+DOWNLOADING
+
+    The recommended way to get ininit is through git.
+        
+    $ git clone git://github.com/encryptio/ininit.git
+
+    A tarball of the latest development version is avaliable at
+    <http://github.com/encryptio/ininit/tarball/master> (save as .tar.gz)
+
+BUILDING
+
+    Both Lua 5.1 and libsndfile must be installed and the pkg-config files
+    associated with them accessible by pkg-config (this is usually automatic.)
+    The build system, SCons, must be installed and in the PATH. Perl is used
+    to build the documentation and to build the main binary's Lua functions.
+
+    Lua is avaliable at <http://www.lua.org/>
+    libsndfile is avaliable at <http://www.mega-nerd.com/libsndfile/>
+    SCons is avaliable at <http://www.scons.org/>
+
+    Most likely, your UNIX-like system already has a working Perl. If not,
+    Perl is avaliable at <http://www.perl.org/>
+
+    Once you have the prerequisites, building the program is extremely simple:
+
+    $ cd ininit
+    $ scons
+
+    And you're done!
+
+INSTALLATION
+
+    Installation is less simple, as it must be done by hand. The binary "ininit"
+    should be in the same directory as the source code if you followed the
+    BUILDING instructions. This binary must be placed in your $PATH.
+    
+    The recommended way for an unprivileged user to do this is to symlink ininit
+    into ~/bin, then add ~/bin to your $PATH if it's not already there.
+
+    $ ln -s /path/to/ininit/sourcedir/ininit ~/bin/ininit
+
+    This allows easy updating, assuming you're using git to follow the
+    development tree:
+
+    $ git pull
+    $ scons
+
+    Without copying any files. Since the symlink points to the named file in the
+    source directory, the new version will be used automatically.
+
+    If, however, you have administrator access, you may install it by copying it
+    into a system binary directory, such as /usr/local/bin.
+
+    # cp ./ininit /usr/local/bin/ininit
+
+DOCUMENTATION
+
+    is minimal, unfortunately. A reference guide to the Lua function calls
+    specific to ininit are described in docs/lua.txt, avaliable only after the
+    program has been built. Examples of scripts that do work are in examples/ in
+    the source distribution.
+
+USAGE
+
+    $ ininit script.lua
+
+    Extra arguments may be passed to the script by appending them after the script name.
+
+LICENSING
+
+    This program is released under the three-clause BSD license.
+
+    ininit links with libsndfile, a program licensed under the LGPL. Libsndfile
+    is available at <http://www.mega-nerd.com/libsndfile/>, and is primarily the
+    work of Erik de Castro Lopo.  
+
+    ininit also links with Lua, the scripting language used in this program to
+    procedurally describe signal flows. Lua is avaliable at <http://www.lua.org/>
+
