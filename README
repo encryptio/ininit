@@ -3,8 +3,7 @@ DESCRIPTION
     ininit is a program that allows the user to write Lua scripts that read
     audio files, do processing, play back certain signals in real time, save
     audio files, or any combination of those. It is meant to be simple and
-    powerful, and avoids unnecessary complexity for the sole sake of
-    performance.
+    powerful; baroque optimizations need not apply.
 
 DOWNLOADING
 
