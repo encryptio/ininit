@@ -98,10 +98,6 @@ env.Program(target='ininit', source=['luabind/main.c', luabindsobj] + sharedcode
 
 
 
-env.Program(target='app/testsaw', source=['app/testsaw.c', 'helpers.o', 'saver.o', 'osc/sawtooth.o', 'filter/bandpass.o'])
-env.Program(target='app/testsine', source=['app/testsine.c', 'helpers.o', 'saver.o', 'osc/sine.o'])
-
-
 Mkdir('docs/temp')
 docfiles = []
 for i in sourcefiles:
