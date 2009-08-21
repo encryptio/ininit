@@ -91,6 +91,16 @@ static int bind_getsamplerate(lua_State *lst) {
     return 1;
 }
 
+// !lua:setsamplerate -> bind_setsamplerate
+/* !doc:setsamplerate(rate)
+ *      Sets the sample rate. Note that this should be one of the first things
+ *      in the script, because most modules don't check for changes.
+ */
+static int bind_setsamplerate(lua_State *lst) {
+    *sample_rate = (double) luaL_checknumber(lst, 1);
+    return 0;
+}
+
 // !lua:gettime -> bind_gettime
 /* !doc:gettime()
  *      Returns the current time in seconds. Equivalent to
