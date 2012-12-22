@@ -9,10 +9,10 @@ DOWNLOADING
 
     The recommended way to get ininit is through git.
         
-    $ git clone git://github.com/encryptio/ininit.git
+    $ git clone https://encryptio.com/git/ininit.git
 
     A tarball of the latest development version is avaliable at
-    <http://github.com/encryptio/ininit/tarball/master> (save as .tar.gz)
+    <https://encryptio.com/git/ininit.git/snapshot/HEAD.tar.gz>
 
 BUILDING
 
